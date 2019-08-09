@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Sphere Analytics WebView</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="sphere.js"></script>
+    <script>
+      function event1_click() {
+          console.log("WebView event - purchase");
+          logEvent("purchase", { item: "notebook", quantity: 1, price: 9.9 });
+      }
+      function event2_click() {
+          console.log("WebView event - cart");
+          logEvent("cart", { item: "notebook", quantity: 1, price: 9.9 });
+      }
+    </script>
+  </head>
+
+  <body>
+    <h4>Sphere Analytics WebView</h4>
+
+    <button style="font-size:20px" onclick="event1_click()">Log Event 1</button>
+
+    <br/><br/>
+
+    <button style="font-size:20px" onclick="event2_click()">Log Event 2</button>
+
+  </body>
+</html>
