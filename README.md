@@ -30,7 +30,7 @@
 ### SDK 다운로드
 
 아래 싸이트를 방문하여 최신 버전의 SDK 파일(.aar)을 선택하여 다운로드 합니다.  
-[다운로드 페이지](release)
+[다운로드 페이지](https://github.com/tand-git/android-sdk/releases)
 
 ### 안드로이드 스튜디오 프로젝트 설정
 
