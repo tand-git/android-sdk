@@ -11,6 +11,8 @@
   * [딥링크 분석](#딥링크-분석)
 * [추가 기능](#추가-기능)
   * [사용자 이벤트 사용하기](#사용자-이벤트-사용하기)
+  * [사용자 아이디 설정](#사용자-아이디-설정)
+  * [사용자 속성 설정](#사용자-속성-설정)
   * [화면 자동 추적](#화면-자동-추적)
   * [사용자 세션 관리](#사용자-세션-관리)
 * [추가 설정](#추가-설정)
@@ -208,6 +210,36 @@ ParamBuilder paramBuilder = new ParamBuilder()
     .setParam("price", 9.9);
 
 SphereAnalytics.logEvent("purchase", paramBuilder);
+```
+
+### 사용자 아이디 설정
+
+고유한 사용자를 구분하기 위해 사용자 아이디를 설정합니다.  
+사용자 아이디는 최대 100자까지 설정가능하고 빈 문자열은 올 수 없으며, null로 설정 시 사용자 아이디 정보는 초기화됩니다.  
+
+<.java>
+
+```java
+// 사용자 아이디 설정
+SphereAnalytics.setUserId("User ID");
+// 사용자 아이디 초기화
+SphereAnalytics.setUserId(null);
+```
+
+### 사용자 속성 설정
+
+사용자 속성 정보를 설정 및 설정한 사용자 속성 정보를 초기화합니다.  
+속성명과 속성값의 쌍으로 구성되며, 속성명은 최대 24자, 속성값은 최대 36자까지 설정 가능합니다.
+
+<.java>
+
+```java
+// 사용자 속성 설정
+SphereAnalytics.setUserProperty("user_property_name", "user_property_value");
+// 사용자 속성 초기화
+SphereAnalytics.setUserProperty("user_property_name", null);
+// 사용자 속성 전체 초기화
+SphereAnalytics.resetUserProperties();
 ```
 
 ### 화면 자동 추적
