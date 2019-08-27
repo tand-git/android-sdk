@@ -9,6 +9,7 @@
         android:name=".SampleApp"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name" >
+
         <activity android:name=".SampleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,8 +18,20 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".SampleAnalyticsActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="sphere" android:host="sample" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".SampleWebViewActivity" />
-        <activity android:name=".SampleAnalyticsActivity" />
+
 
         <receiver android:name=".MyInstallReceiver" android:exported="true">
         <!--<receiver android:name="com.sphere.analytics.SphereReferrerReceiver" android:exported="true">-->

@@ -1,6 +1,7 @@
 package com.sphere.sample;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -49,4 +50,12 @@ public class SampleAnalyticsActivity extends Activity {
         });
 
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if (intent != null) {
+            SphereAnalytics.setDeepLink(intent.getData());
+        }
+    }
+
 }

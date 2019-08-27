@@ -8,6 +8,7 @@
   * [AndroidManifest 설정](#androidmanifest-설정)
   * [SDK 초기화하기](#sdk-초기화하기)
   * [구글 인스톨 리시버 추가](#구글-인스톨-리시버-추가)
+  * [딥링크 분석](#딥링크-분석)
 * [추가 기능](#추가-기능)
   * [사용자 이벤트 사용하기](#사용자-이벤트-사용하기)
   * [화면 자동 추적](#화면-자동-추적)
@@ -154,6 +155,24 @@ public class MyInstallReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         SphereReferrerReceiver.handleOnReceive(context, intent);
+    }
+}
+```
+
+### 딥링크 분석
+
+앱에서 Custom URL Scheme을 사용하여 Activity를 실행하는 경우 다음 코드와 같이 해당 Activity에서 앱이 실행된 URL 정보를 Sphere Analytics로 전달합니다.  
+
+<AppDelegate.m>
+
+```java
+public class MyActivity extends Activity {
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if (intent != null) {
+            SphereAnalytics.setDeepLink(intent.getData());
+        }
     }
 }
 ```
