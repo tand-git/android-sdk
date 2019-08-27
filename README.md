@@ -163,7 +163,7 @@ public class MyInstallReceiver extends BroadcastReceiver {
 
 앱에서 Custom URL Scheme을 사용하여 Activity를 실행하는 경우 다음 코드와 같이 해당 Activity에서 앱이 실행된 URL 정보를 Sphere Analytics로 전달합니다.  
 
-<AppDelegate.m>
+<MyActivity.java>
 
 ```java
 public class MyActivity extends Activity {
