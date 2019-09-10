@@ -318,7 +318,8 @@ mWebView.loadUrl("your website url");
 
 #### 2. 자바스크립트 인터페이스
 
-아래 코드와 같이 자바스크립트를 위한 인터페이스를 추가합니다.
+아래 코드와 같이 자바스크립트를 위한 인터페이스를 추가하고 해당 화면 또는 이벤트 발생 시점에 자바스크립트 인터페이스 함수를 호출합니다.
+이벤트 및 파라미터에 관한 규격은 [사용자 이벤트 사용하기](#사용자-이벤트-사용하기)에 명시되어 있습니다.
 
 <.js>
 
@@ -345,4 +346,39 @@ function logEvent(name, params) {
     console.log("No native APIs found.");
   }
 }
+```
+
+<.html>
+
+```html
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="sphere.js"></script>
+    <script type="text/javascript">
+      logEvent("purchase_view", null);
+
+      function event1_click() {
+          console.log("WebView event - purchase");
+          logEvent("purchase", { item: "notebook", quantity: 1, price: 9.9 });
+      }
+      function event2_click() {
+          console.log("WebView event - cart");
+          logEvent("cart", { item: "notebook", quantity: 1, price: 9.9 });
+      }
+    </script>
+  </head>
+
+  <body>
+    <h4>Sphere Analytics WebView</h4>
+
+    <button style="font-size:20px" onclick="event1_click()">Log Event 1</button>
+
+    <br/><br/>
+
+    <button style="font-size:20px" onclick="event2_click()">Log Event 2</button>
+
+  </body>
+</html>
 ```

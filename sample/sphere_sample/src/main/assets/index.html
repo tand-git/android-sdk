@@ -2,12 +2,12 @@
 
 <html>
   <head>
-    <title>Sphere Analytics WebView</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script type="text/javascript" src="sphere.js"></script>
-    <script>
+    <script type="text/javascript">
+      logEvent("purchase_view", null);
+
       function event1_click() {
           console.log("WebView event - purchase");
           logEvent("purchase", { item: "notebook", quantity: 1, price: 9.9 });
