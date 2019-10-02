@@ -4,17 +4,38 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script type="text/javascript" src="sphere.js"></script>
+    <script type="text/javascript" src="sphereAnalytics.js"></script>
     <script type="text/javascript">
-      logEvent("purchase_view", null);
 
-      function event1_click() {
-          console.log("WebView event - purchase");
-          logEvent("purchase", { item: "notebook", quantity: 1, price: 9.9 });
+      // 화면 이벤트 기록
+      SphereAnalytics.logPageViewEvent("purchase_view");
+
+      function event_click() {
+          console.log("WebView - log event");
+
+          // 이벤트 및 파라미터 기록
+          SphereAnalytics.logEvent("purchase", { item: "notebook", quantity: 1, price: 9.9 });
+
+          // 파라미터가 없는 이벤트 기록
+          SphereAnalytics.logEvent("purchase_clicked", null);
       }
-      function event2_click() {
-          console.log("WebView event - cart");
-          logEvent("cart", { item: "notebook", quantity: 1, price: 9.9 });
+      function user_id_click() {
+          console.log("WebView - set user id");
+
+          // 사용자 아이디 설정
+          SphereAnalytics.setUserId("User ID");
+          // 사용자 아이디 초기화
+          SphereAnalytics.setUserId(null);
+      }
+      function user_property_click() {
+          console.log("WebView - set user property");
+
+          // 사용자 속성 설정
+          SphereAnalytics.setUserProperty("user_property_name", "user_property_value");
+          // 사용자 속성 초기화
+          SphereAnalytics.setUserProperty("user_property_name", null);
+          // 사용자 속성 전체 초기화
+          SphereAnalytics.resetUserProperties();
       }
     </script>
   </head>
@@ -22,11 +43,11 @@
   <body>
     <h4>Sphere Analytics WebView</h4>
 
-    <button style="font-size:20px" onclick="event1_click()">Log Event 1</button>
-
+    <button style="font-size:20px" onclick="event_click()">Log Event</button>
     <br/><br/>
-
-    <button style="font-size:20px" onclick="event2_click()">Log Event 2</button>
+    <button style="font-size:20px" onclick="user_id_click()">Set User ID</button>
+    <br/><br/>
+    <button style="font-size:20px" onclick="user_property_click()">Set User Property</button>
 
   </body>
 </html>

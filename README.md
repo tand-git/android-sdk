@@ -9,8 +9,10 @@
   * [SDK 초기화하기](#sdk-초기화하기)
   * [인스톨 레퍼러 리시버 추가](#인스톨-레퍼러-리시버-추가)
   * [딥링크 분석](#딥링크-분석)
+  * [프로세스 강제 종료 시 추가 설정](#프로세스-강제-종료-시-추가-설정)
 * [추가 기능](#추가-기능)
-  * [사용자 이벤트 사용하기](#사용자-이벤트-사용하기)
+  * [커스텀 이벤트 사용하기](#커스텀-이벤트-사용하기)
+  * [화면 이벤트 사용하기](#화면-이벤트-사용하기)
   * [사용자 아이디 설정](#사용자-아이디-설정)
   * [사용자 속성 설정](#사용자-속성-설정)
   * [사용자 세션 관리](#사용자-세션-관리)
@@ -177,18 +179,33 @@ public class MyActivity extends Activity {
     @Override
     protected void onNewIntent(Intent intent) {
         if (intent != null) {
+            // 딥링크 설정
             SphereAnalytics.setDeepLink(intent.getData());
         }
     }
 }
 ```
 
+### 프로세스 강제 종료 시 추가 설정
+
+앱 종료 시 강제적으로 프로세스를 종료 시키는 앱의 경우만 해당된 설정입니다.  
+android.os.Process.killProcess 또는 System.exit 함수를 이용하여 앱을 강제 종료 시
+정상적인 세션 기록을 위해 종료 직전 SphereAnalytics.updateSessionBeforeProcessKill 함수를 호출해야 합니다.
+
+```java
+// 강제 종료 이전에 세션 업데이트 함수 호출
+SphereAnalytics.updateSessionBeforeProcessKill();
+
+// 앱 종료 시 강제적으로 프로세스 종료
+android.os.Process.killProcess(android.os.Process.myPid());
+```
+
 ## 추가 기능
 
-### 사용자 이벤트 사용하기
+### 커스텀 이벤트 사용하기
 
-SDK가 초기화 되었다면 logEvent() 함수를 이용하여 사용자 이벤트를 설정할 수 있으며, 한 이벤트는 최대 25개의 파라미터를 설정할 수 있습니다.  
-파라미터는 파라미터명과 파라미터값의 쌍으로 구성되며 ParamBuilder 클래스를 통해 설정이 가능합니다.  
+SDK가 초기화 되었다면 logEvent() 함수를 이용하여 커스텀 이벤트를 설정할 수 있으며, 한 이벤트는 최대 25개의 파라미터를 설정할 수 있습니다.  
+파라미터는 파라미터명과 파라미터값의 쌍으로 구성되며 ParamBuilder 클래스를 통해 설정이 가능합니다. 이벤트명은 필수이며 파라미터는 없는 경우 null로 설정 가능합니다.  
 
 이벤트명과 파라미터에 관한 규칙은 다음과 같습니다.
 
@@ -208,12 +225,31 @@ SDK가 초기화 되었다면 logEvent() 함수를 이용하여 사용자 이벤
 <.java>
 
 ```java
+// 이벤트 파라미터 설정
 ParamBuilder paramBuilder = new ParamBuilder()
     .setParam("item", "notebook")
     .setParam("quantity", 1)
     .setParam("price", 9.9);
-
+// 이벤트 기록
 SphereAnalytics.logEvent("purchase", paramBuilder);
+
+// 파라미터가 없는 이벤트 기록
+SphereAnalytics.logEvent("purchase_clicked", null);
+```
+
+### 화면 이벤트 사용하기
+
+사용자가 조회한 화면들을 분석하기 위해 화면 이름과 함께 화면 이벤트("#pageView")를 기록합니다.
+Activity 또는 Fragment에서 화면이 보여지는 시점에 logPageViewEvent함수를 호출하여 화면 이벤트를 기록합니다.
+
+```java
+@Override
+protected void onStart() {
+    super.onStart();
+
+    // 화면 이벤트 기록
+    SphereAnalytics.logPageViewEvent("purchaseView");
+}
 ```
 
 ### 사용자 아이디 설정
@@ -287,7 +323,7 @@ SphereAnalytics.setAnalyticsCollectionEnabled(false); // 비활성화
 
 ## 웹뷰 설정
 
-웹뷰를 이용한 하이브리드앱을 개발하는 경우 사용자 이벤트를 수집하기 위해서는 자바스크립트 인터페이스 핸들러를 통해 네이티브 API를 호출해야 합니다.  
+웹뷰를 이용한 하이브리드앱을 개발하는 경우 이벤트를 수집하기 위해서는 자바스크립트 인터페이스 핸들러를 통해 네이티브 API를 호출해야 합니다.  
 [샘플 프로젝트](sample)를 참조하면 웹뷰를 통해 연동된 샘플 소스를 확인할 수 있습니다.
 
 ### 1. 웹뷰 자바스크립트 인터페이스 핸들러 등록
@@ -307,35 +343,11 @@ mWebView.loadUrl("your website url");
 
 ### 2. 자바스크립트 인터페이스
 
-아래 코드와 같이 자바스크립트를 위한 인터페이스를 추가하고 해당 화면 또는 이벤트 발생 시점에 자바스크립트 인터페이스 함수를 호출합니다.
-이벤트 및 파라미터에 관한 규격은 [사용자 이벤트 사용하기](#사용자-이벤트-사용하기)에 명시되어 있습니다.
+웹페이지 헤더에 Sphere 자바스크립트 인터페이스([sphereAnalytics.js](sample/sphere_sample/src/main/assets/sphereAnalytics.js))를 추가하고 해당 화면 또는 이벤트 발생 시점에 자바스크립트 인터페이스 함수를 호출합니다.  
+이벤트 및 파라미터에 관한 규격은 [커스텀 이벤트 사용하기](#커스텀-이벤트-사용하기)에 명시되어 있습니다.
 
-<.js>
-
-```javascript
-// User event function
-// name : Event Name
-// params : Parameter of JSON type
-function logEvent(name, params) {
-  if (window.SphereJsInterface) {
-    // Call Android interface
-    window.SphereJsInterface.logEvent(name, JSON.stringify(params));
-  } else if (window.webkit
-      && window.webkit.messageHandlers
-      && window.webkit.messageHandlers.sphere) {
-    // Call iOS interface
-    var message = {
-      command: 'logEvent',
-      name: name,
-      parameters: params
-    };
-    window.webkit.messageHandlers.sphere.postMessage(message);
-  } else {
-    // No Android or iOS interface found
-    console.log("No native APIs found.");
-  }
-}
-```
+<sphereAnalytics.js>  
+Sphere 자바스크립트 인터페이스 - 샘플 프로젝트 내 [sample/sphere_sample/src/main/assets/sphereAnalytics.js](sample/sphere_sample/src/main/assets/sphereAnalytics.js) 파일 참조
 
 <.html>
 
@@ -344,17 +356,38 @@ function logEvent(name, params) {
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script type="text/javascript" src="sphere.js"></script>
+    <script type="text/javascript" src="sphereAnalytics.js"></script>
     <script type="text/javascript">
-      logEvent("purchase_view", null);
 
-      function event1_click() {
-          console.log("WebView event - purchase");
+      // 화면 이벤트 기록
+      logPageViewEvent("purchase_view");
+
+      function event_click() {
+          console.log("WebView - log event");
+
+          // 이벤트 및 파라미터 기록
           logEvent("purchase", { item: "notebook", quantity: 1, price: 9.9 });
+
+          // 파라미터가 없는 이벤트 기록
+          logEvent("purchase_clicked", null);
       }
-      function event2_click() {
-          console.log("WebView event - cart");
-          logEvent("cart", { item: "notebook", quantity: 1, price: 9.9 });
+      function user_id_click() {
+          console.log("WebView - set user id");
+
+          // 사용자 아이디 설정
+          setUserId("User ID");
+          // 사용자 아이디 초기화
+          setUserId(null);
+      }
+      function user_property_click() {
+          console.log("WebView - set user property");
+
+          // 사용자 속성 설정
+          setUserProperty("user_property_name", "user_property_value");
+          // 사용자 속성 초기화
+          setUserProperty("user_property_name", null);
+          // 사용자 속성 전체 초기화
+          resetUserProperties();
       }
     </script>
   </head>
@@ -362,11 +395,11 @@ function logEvent(name, params) {
   <body>
     <h4>Sphere Analytics WebView</h4>
 
-    <button style="font-size:20px" onclick="event1_click()">Log Event 1</button>
-
+    <button style="font-size:20px" onclick="event_click()">Log Event</button>
     <br/><br/>
-
-    <button style="font-size:20px" onclick="event2_click()">Log Event 2</button>
+    <button style="font-size:20px" onclick="user_id_click()">Set User ID</button>
+    <br/><br/>
+    <button style="font-size:20px" onclick="user_property_click()">Set User Property</button>
 
   </body>
 </html>

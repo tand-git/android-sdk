@@ -9,8 +9,8 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/send_event_1"
-            android:text="Send Event"
+            android:id="@+id/log_event"
+            android:text="Log Event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
