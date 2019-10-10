@@ -360,34 +360,28 @@ Sphere 자바스크립트 인터페이스 - 샘플 프로젝트 내 [sample/sphe
     <script type="text/javascript">
 
       // 화면 이벤트 기록
-      logPageViewEvent("purchase_view");
+      SphereAnalytics.logPageViewEvent("purchase_view");
 
       function event_click() {
-          console.log("WebView - log event");
-
           // 이벤트 및 파라미터 기록
-          logEvent("purchase", { item: "notebook", quantity: 1, price: 9.9 });
+          SphereAnalytics.logEvent("purchase", { item: "notebook", quantity: 1, price: 9.9 });
 
           // 파라미터가 없는 이벤트 기록
-          logEvent("purchase_clicked", null);
+          SphereAnalytics.logEvent("purchase_clicked", null);
       }
       function user_id_click() {
-          console.log("WebView - set user id");
-
           // 사용자 아이디 설정
-          setUserId("User ID");
+          SphereAnalytics.setUserId("User ID");
           // 사용자 아이디 초기화
-          setUserId(null);
+          SphereAnalytics.setUserId(null);
       }
       function user_property_click() {
-          console.log("WebView - set user property");
-
           // 사용자 속성 설정
-          setUserProperty("user_property_name", "user_property_value");
+          SphereAnalytics.setUserProperty("user_property_name", "user_property_value");
           // 사용자 속성 초기화
-          setUserProperty("user_property_name", null);
+          SphereAnalytics.setUserProperty("user_property_name", null);
           // 사용자 속성 전체 초기화
-          resetUserProperties();
+          SphereAnalytics.resetUserProperties();
       }
     </script>
   </head>
