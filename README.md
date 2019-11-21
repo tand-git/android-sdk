@@ -186,7 +186,7 @@ public class MyActivity extends Activity {
 }
 ```
 
-### 프로세스 강제 종료 시 추가 설정
+### 프로세스 강제 종료 시 추가 설정
 
 앱 종료 시 강제적으로 프로세스를 종료 시키는 앱의 경우만 해당된 설정입니다.  
 android.os.Process.killProcess 또는 System.exit 함수를 이용하여 앱을 강제 종료 시
