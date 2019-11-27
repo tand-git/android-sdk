@@ -25,27 +25,6 @@ logEvent:function(name, params) {
 },
 
 /**
- * Logs an pageView event with the name of the page.
- * @param pageName The name of the page.
- */
-logPageViewEvent:function(pageName) {
-  if (this._isSphereAndroid()) {
-    // Call Android interface
-    window.SphereJsInterface.logPageViewEvent(pageName);
-  } else if (this._isSphereIOS()) {
-    // Call iOS interface
-    var message = {
-      command: 'logPageViewEvent',
-      pageName: pageName
-    };
-    window.webkit.messageHandlers.sphere.postMessage(message);
-  } else {
-    // No Android or iOS interface found
-    console.log("No native APIs found.");
-  }
-},
-
-/**
  * Sets the user ID
  * @param userId The user ID to ascribe to the user of this app on this device, which must be non-empty and no more than 256 characters long.
  *               Setting the ID to null removes the user ID.
