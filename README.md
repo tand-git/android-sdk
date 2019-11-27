@@ -12,7 +12,6 @@
   * [프로세스 강제 종료 시 추가 설정](#프로세스-강제-종료-시-추가-설정)
 * [추가 기능](#추가-기능)
   * [커스텀 이벤트 사용하기](#커스텀-이벤트-사용하기)
-  * [화면 이벤트 사용하기](#화면-이벤트-사용하기)
   * [사용자 아이디 설정](#사용자-아이디-설정)
   * [사용자 속성 설정](#사용자-속성-설정)
   * [사용자 세션 관리](#사용자-세션-관리)
@@ -238,21 +237,6 @@ SphereAnalytics.logEvent("purchase", paramBuilder);
 
 // 파라미터가 없는 이벤트 기록
 SphereAnalytics.logEvent("purchase_clicked", null);
-```
-
-### 화면 이벤트 사용하기
-
-사용자가 조회한 화면들을 분석하기 위해 화면 이름과 함께 화면 이벤트("#pageView")를 기록합니다.
-Activity 또는 Fragment에서 화면이 보여지는 시점에 logPageViewEvent함수를 호출하여 화면 이벤트를 기록합니다.
-
-```java
-@Override
-protected void onStart() {
-    super.onStart();
-
-    // 화면 이벤트 기록
-    SphereAnalytics.logPageViewEvent("purchaseView");
-}
 ```
 
 ### 사용자 아이디 설정

@@ -53,14 +53,8 @@ public class SampleAnalyticsActivity extends Activity {
             }
         });
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
         // 화면 이벤트 기록
-        SphereAnalytics.logPageViewEvent("purchase_view");
+        SphereAnalytics.logEvent("product_view", null);
     }
 
     @Override
