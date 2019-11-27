@@ -16,10 +16,13 @@
   * [사용자 아이디 설정](#사용자-아이디-설정)
   * [사용자 속성 설정](#사용자-속성-설정)
   * [사용자 세션 관리](#사용자-세션-관리)
+  * [이벤트 즉시 전송](#이벤트-즉시-전송)
 * [추가 설정](#추가-설정)
   * [로그 출력](#로그-출력)
   * [이벤트 수집 비활성화](#이벤트-수집-비활성화)
 * [웹뷰 설정](#웹뷰-설정)
+  * [웹뷰 자바스크립트 인터페이스 핸들러 등록](#웹뷰-자바스크립트-인터페이스-핸들러-등록)
+  * [자바스크립트 인터페이스](#자바스크립트-인터페이스)
 
 ## 기본 연동
 
@@ -297,6 +300,15 @@ SphereAnalytics.resetUserProperties();
 SphereAnalytics.setSessionTimeout(1000 * 60); // 1분
 ```
 
+### 이벤트 즉시 전송
+
+기본적으로 Sphere Analytics는 앱이 실행 후 비활성화되는 시점에 기록된 모든 이벤트들을 서버에 전송합니다.  
+하지만 requestUpload 함수를 호출할 경우 현재까지 기록된 모든 이벤트들을 호출 즉시 서버로 전송합니다.
+
+```java
+SphereAnalytics.requestUpload();
+```
+
 ## 추가 설정
 
 ### 로그 출력
@@ -326,9 +338,9 @@ SphereAnalytics.setAnalyticsCollectionEnabled(false); // 비활성화
 웹뷰를 이용한 하이브리드앱을 개발하는 경우 이벤트를 수집하기 위해서는 자바스크립트 인터페이스 핸들러를 통해 네이티브 API를 호출해야 합니다.  
 [샘플 프로젝트](sample)를 참조하면 웹뷰를 통해 연동된 샘플 소스를 확인할 수 있습니다.
 
-### 1. 웹뷰 자바스크립트 인터페이스 핸들러 등록
+### 웹뷰 자바스크립트 인터페이스 핸들러 등록
 
-웹뷰에 자바스크립트 인터페이스 핸들러를 등록하여 웹에서 호출하는 자바스크립트 이벤트를 네이티브 인터페이스로 맵핑합니다.
+웹뷰에 스크립트 메세지 핸들러를 등록하여 웹에서 호출하는 Sphere 자바스크립트 인터페이스를 Sphere 네이티브 인터페이스로 연결합니다.
 
 <.java>
 
@@ -341,15 +353,16 @@ mWebView.addJavascriptInterface(new SphereJsInterface(), "SphereJsInterface");
 mWebView.loadUrl("your website url");
 ```
 
-### 2. 자바스크립트 인터페이스
+### 자바스크립트 인터페이스
 
 웹페이지 헤더에 Sphere 자바스크립트 인터페이스([sphereAnalytics.js](sample/sphere_sample/src/main/assets/sphereAnalytics.js))를 추가하고 해당 화면 또는 이벤트 발생 시점에 자바스크립트 인터페이스 함수를 호출합니다.  
 이벤트 및 파라미터에 관한 규격은 [커스텀 이벤트 사용하기](#커스텀-이벤트-사용하기)에 명시되어 있습니다.
 
-<sphereAnalytics.js>  
-Sphere 자바스크립트 인터페이스 - 샘플 프로젝트 내 [sample/sphere_sample/src/main/assets/sphereAnalytics.js](sample/sphere_sample/src/main/assets/sphereAnalytics.js) 파일 참조
+<sphereAnalytics.js> Sphere 자바스크립트 인터페이스
+> 샘플 프로젝트 내 [sample/sphere_sample/src/main/assets/sphereAnalytics.js](sample/sphere_sample/src/main/assets/sphereAnalytics.js) 파일 참조
 
-<.html>
+<index.html> 웹페이지 사용 예제
+> 샘플 프로젝트 내 [sample/sphere_sample/src/main/assets/index.html](sample/sphere_sample/src/main/assets/index.html) 파일 참조
 
 ```html
 <html>
@@ -360,11 +373,12 @@ Sphere 자바스크립트 인터페이스 - 샘플 프로젝트 내 [sample/sphe
     <script type="text/javascript">
 
       // 화면 이벤트 기록
-      SphereAnalytics.logPageViewEvent("purchase_view");
+      SphereAnalytics.logEvent("product_view", null);
 
       function event_click() {
           // 이벤트 및 파라미터 기록
-          SphereAnalytics.logEvent("purchase", { item: "notebook", quantity: 1, price: 9.9 });
+          var params = { item: "notebook", price: 9.9, quantity: 1 };
+          SphereAnalytics.logEvent("purchase", params);
 
           // 파라미터가 없는 이벤트 기록
           SphereAnalytics.logEvent("purchase_clicked", null);

@@ -8,13 +8,14 @@
     <script type="text/javascript">
 
       // 화면 이벤트 기록
-      SphereAnalytics.logPageViewEvent("purchase_view");
+      SphereAnalytics.logEvent("product_view", null);
 
       function event_click() {
           console.log("WebView - log event");
 
           // 이벤트 및 파라미터 기록
-          SphereAnalytics.logEvent("purchase", { item: "notebook", quantity: 1, price: 9.9 });
+          var params = { item: "notebook", price: 9.9, quantity: 1 };
+          SphereAnalytics.logEvent("purchase", params);
 
           // 파라미터가 없는 이벤트 기록
           SphereAnalytics.logEvent("purchase_clicked", null);
