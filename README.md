@@ -23,6 +23,9 @@
   * [웹뷰 자바스크립트 인터페이스 핸들러 등록](#웹뷰-자바스크립트-인터페이스-핸들러-등록)
   * [자바스크립트 인터페이스](#자바스크립트-인터페이스)
   * [자바스크립트 이벤트 기록하기](#자바스크립트-이벤트-기록하기)
+* [SDK 연동 검증하기](#sdk-연동-검증하기)
+  * [SDK 로그를 통한 검증](#sdk-로그를-통한-검증)
+  * [Sphere Analytics 콘솔을 통한 검증](#sphere-analytics-콘솔을-통한-검증)
 
 ## 기본 연동
 
@@ -377,3 +380,35 @@ mWebView.loadUrl("your website url");
 이벤트 및 파라미터에 관한 자세한 규칙은 [커스텀 이벤트 사용하기](#커스텀-이벤트-사용하기)에 명시되어 있습니다.
 
 * 파라미터값 지원 타입 : String(최대 100자), Number, Boolean
+
+## SDK 연동 검증하기
+
+> 기본적으로 SDK 기본 연동이 완료되었다면 SDK 로그 확인 및 Sphere Analytics 콘솔에서 연동 검증이 가능합니다.
+
+### SDK 로그를 통한 검증
+
+SDK 로그를 확인하기 위해서는 우선 [로그 출력](#로그-출력) 가이드 내용에 따라 SDK 로그 출력을 활성화합니다. 로그가 활성화 되었다면 다음과 같이 정상적으로 로그가 출력이 됩니다.  
+만약 정상적으로 연동이 되지 않은 경우 로그가 출력이 되지 않거나 에러 로그를 출력합니다.
+
+(1) 앱 실행 시
+
+```text
+Sphere Android SDK version 1.x.x
+```
+
+(2) 앱 종료 시
+
+```text
+Finished to upload events.
+```
+
+(3) 이벤트 기록 시
+
+```text
+Log event. Event name: xxxxx
+```
+
+### Sphere Analytics 콘솔을 통한 검증
+
+Sphere Analtyics 콘솔에서 회원가입 및 로그인이 가능하다면 [SDK 연동 및 검증](https://analytics.tand.kr/account/inspector) 화면에서
+가장 최근에 수집된 이벤트 및 세션 정보를 확인할 수 있습니다.
