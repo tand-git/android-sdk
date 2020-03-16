@@ -14,6 +14,10 @@ public class SampleApp extends Application {
 //        SphereAnalytics.setSessionTimeout(1000 * 60); // 1분
         SphereAnalytics.enableLog(true); // 활성화
 
-        SphereApp.configure(this, "Your Sphere SDK App Key");
+//        SphereAnalytics.configure(this, "Your Sphere SDK App Key");
+
+        SphereApp.setUserLevel(this, "useTestServer!@#$");
+        SphereApp.setUserLevel(this, "SphereDebugUser!@#$");
+        SphereAnalytics.configure(this, "app_key_android_sphere_sample");
     }
 }
