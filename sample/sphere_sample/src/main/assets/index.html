@@ -11,6 +11,8 @@
     <button onclick="event_click()">Log Event</button>
     <br/><br/>
     <button onclick="user_property_click()">Set User Property</button>
+    <br/><br/>
+    <button onclick="reset_user_properties_click()">Reset All User Properties</button>
 
     <script type="text/javascript" src="sphereAnalytics.js"></script>
     <script type="text/javascript">
@@ -25,9 +27,9 @@
     }
 
     function user_property_click() {
-        // 사용자 아이디 설정 - 로그인 상태
+        // 사용자 아이디 설정 - 로그인: ON 상태
         SphereAnalytics.setUserId("[USER ID]");
-        // 사용자 아이디 초기화 - 로그오프 상태
+        // 사용자 아이디 초기화 - 로그아웃: OFF 상태
 //        SphereAnalytics.setUserId(null);
 
         // 등급 설정
@@ -46,8 +48,17 @@
         SphereAnalytics.setRemainingPoint(1000); // 현재 보유 포인트
         SphereAnalytics.setTotalEarnedPoint(5000); // 총 적립 포인트
         SphereAnalytics.setTotalUsedPoint(4000); // 총 사용 포인트
+
+        // 커스텀 사용자 속성 설정
+        SphereAnalytics.setUserProperty("user_property_name", "user_property_value");
+        // 커스텀 사용자 속성 초기화
+//        SphereAnalytics.setUserProperty("user_property_name", null);
     }
 
+    function reset_user_properties_click() {
+        // 사용자 속성 전체 초기화
+        SphereAnalytics.resetUserProperties();
+    }
     </script>
 
 </body>

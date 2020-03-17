@@ -18,6 +18,9 @@ var SphereAnalytics = {
                 parameters: params
             };
             window.webkit.messageHandlers.sphere.postMessage(message);
+        } else {
+            // No Android or iOS interface found
+            console.log("No native APIs found.");
         }
     },
 
@@ -166,6 +169,42 @@ var SphereAnalytics = {
             };
             window.webkit.messageHandlers.sphere.postMessage(message);
         }
+    },
+
+    resetPoints:function() {
+        if (this._isSphereAndroid()) {
+            // Call Android interface
+            window.SphereJsInterface.resetPoints();
+        } else if (this._isSphereIOS()) {
+            // Call iOS interface
+            var message = {
+                command: "resetPoints"
+            };
+            window.webkit.messageHandlers.sphere.postMessage(message);
+        }
+    },
+
+    /**
+     * Sets a user property to a given value.
+     * Once set, user property values persist throughout the app lifecycle and across sessions.
+     * @param name The name of the user property to set.
+     *             Should contain 1 to 40 alphanumeric characters or underscores and must start with an alphabetic character.
+     * @param value The value of the user property.
+     *              Values can be up to 100 characters long. Setting the value to null removes the user property.
+     */
+    setUserProperty:function(name, value) {
+      if (this._isSphereAndroid()) {
+        // Call Android interface
+        window.SphereJsInterface.setUserProperty(name, value);
+      } else if (this._isSphereIOS()) {
+        // Call iOS interface
+        var message = {
+          command: 'setUserProperty',
+          name: name,
+          value: value
+        };
+        window.webkit.messageHandlers.sphere.postMessage(message);
+      }
     },
 
     /**

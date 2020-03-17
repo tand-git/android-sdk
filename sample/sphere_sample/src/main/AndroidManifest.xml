@@ -18,27 +18,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SampleAnalyticsActivity"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:scheme="sphere" android:host="sample" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".SampleAnalyticsActivity" />
 
         <activity android:name=".SampleWebViewActivity" />
-
-
-        <receiver android:name=".MyInstallReceiver" android:exported="true">
-        <!--<receiver android:name="com.sphere.analytics.SphereReferrerReceiver" android:exported="true">-->
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
 
     </application>
 
