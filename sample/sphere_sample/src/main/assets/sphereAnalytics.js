@@ -7,20 +7,24 @@ var SphereAnalytics = {
      * @param params The event parameters of JSON type
      */
     logEvent:function(name, params) {
-        if (this._isSphereAndroid()) {
-            // Call Android interface
-            window.SphereJsInterface.logEvent(name, JSON.stringify(params));
-        } else if (this._isSphereIOS()) {
-            // Call iOS interface
-            var message = {
-                command: "logEvent",
-                name: name,
-                parameters: params
-            };
-            window.webkit.messageHandlers.sphere.postMessage(message);
-        } else {
-            // No Android or iOS interface found
-            console.log("No native APIs found.");
+        try {
+            if (this._isSphereAndroid()) {
+                // Call Android interface
+                window.SphereJsInterface.logEvent(name, JSON.stringify(params));
+            } else if (this._isSphereIOS()) {
+                // Call iOS interface
+                var message = {
+                    command: "logEvent",
+                    name: name,
+                    parameters: params
+                };
+                window.webkit.messageHandlers.sphere.postMessage(message);
+            } else {
+                // No Android or iOS interface found
+                this._consoleLog("No native APIs found.");
+            }
+        } catch(error) {
+            this._consoleLog(error);
         }
     },
 
@@ -30,157 +34,198 @@ var SphereAnalytics = {
      *               Setting the ID to null removes the user ID.
      */
     setUserId:function(userId) {
-        if (this._isSphereAndroid()) {
-            // Call Android interface
-            window.SphereJsInterface.setUserId(userId);
-        } else if (this._isSphereIOS()) {
-            // Call iOS interface
-            var message = {
-                command: "setUserId",
-                userId: userId
-            };
-            window.webkit.messageHandlers.sphere.postMessage(message);
+        try {
+            if (this._isSphereAndroid()) {
+                // Call Android interface
+                window.SphereJsInterface.setUserId(userId);
+            } else if (this._isSphereIOS()) {
+                // Call iOS interface
+                var message = {
+                    command: "setUserId",
+                    userId: userId
+                };
+                window.webkit.messageHandlers.sphere.postMessage(message);
+            }
+        } catch(error) {
+            this._consoleLog(error);
         }
     },
 
     setGrade:function(grade) {
-        if (this._isSphereAndroid()) {
-            // Call Android interface
-            window.SphereJsInterface.setGrade(grade);
-        } else if (this._isSphereIOS()) {
-            // Call iOS interface
-            var message = {
-                command: "setGrade",
-                grade: grade
-            };
-            window.webkit.messageHandlers.sphere.postMessage(message);
+        try {
+            if (this._isSphereAndroid()) {
+                // Call Android interface
+                window.SphereJsInterface.setGrade(grade);
+            } else if (this._isSphereIOS()) {
+                // Call iOS interface
+                var message = {
+                    command: "setGrade",
+                    grade: grade
+                };
+                window.webkit.messageHandlers.sphere.postMessage(message);
+            }
+        } catch(error) {
+            this._consoleLog(error);
         }
     },
 
     setGender:function(gender) {
-        if (this._isSphereAndroid()) {
-            // Call Android interface
-            window.SphereJsInterface.setGender(gender);
-        } else if (this._isSphereIOS()) {
-            // Call iOS interface
-            var message = {
-                command: "setGender",
-                gender: gender
-            };
-            window.webkit.messageHandlers.sphere.postMessage(message);
+        try {
+            if (this._isSphereAndroid()) {
+                // Call Android interface
+                window.SphereJsInterface.setGender(gender);
+            } else if (this._isSphereIOS()) {
+                // Call iOS interface
+                var message = {
+                    command: "setGender",
+                    gender: gender
+                };
+                window.webkit.messageHandlers.sphere.postMessage(message);
+            }
+        } catch(error) {
+            this._consoleLog(error);
         }
     },
 
     setBirthYear:function(year) {
-        if (!this._isNumberValue(year)) {
-            console.log("setBirthYear: Invalid parameter.");
-            return;
-        }
-        if (this._isSphereAndroid()) {
-            // Call Android interface
-            window.SphereJsInterface.setBirthYear(year);
-        } else if (this._isSphereIOS()) {
-            // Call iOS interface
-            var message = {
-                command: "setBirthYear",
-                year: year
-            };
-            window.webkit.messageHandlers.sphere.postMessage(message);
+        try {
+            if (!this._isNumberValue(year)) {
+                console.log("setBirthYear: Invalid parameter.");
+                return;
+            }
+            if (this._isSphereAndroid()) {
+                // Call Android interface
+                window.SphereJsInterface.setBirthYear(year);
+            } else if (this._isSphereIOS()) {
+                // Call iOS interface
+                var message = {
+                    command: "setBirthYear",
+                    year: year
+                };
+                window.webkit.messageHandlers.sphere.postMessage(message);
+            }
+        } catch(error) {
+            this._consoleLog(error);
         }
     },
 
     setPhoneNumber:function(number) {
-        if (this._isSphereAndroid()) {
-            // Call Android interface
-            window.SphereJsInterface.setPhoneNumber(number);
-        } else if (this._isSphereIOS()) {
-            // Call iOS interface
-            var message = {
-                command: "setPhoneNumber",
-                number: number
-            };
-            window.webkit.messageHandlers.sphere.postMessage(message);
+        try {
+            if (this._isSphereAndroid()) {
+                // Call Android interface
+                window.SphereJsInterface.setPhoneNumber(number);
+            } else if (this._isSphereIOS()) {
+                // Call iOS interface
+                var message = {
+                    command: "setPhoneNumber",
+                    number: number
+                };
+                window.webkit.messageHandlers.sphere.postMessage(message);
+            }
+        } catch(error) {
+            this._consoleLog(error);
         }
     },
 
     setEmail:function(email) {
-        if (this._isSphereAndroid()) {
-            // Call Android interface
-            window.SphereJsInterface.setEmail(email);
-        } else if (this._isSphereIOS()) {
-            // Call iOS interface
-            var message = {
-                command: "setEmail",
-                email: email
-            };
-            window.webkit.messageHandlers.sphere.postMessage(message);
+        try {
+            if (this._isSphereAndroid()) {
+                // Call Android interface
+                window.SphereJsInterface.setEmail(email);
+            } else if (this._isSphereIOS()) {
+                // Call iOS interface
+                var message = {
+                    command: "setEmail",
+                    email: email
+                };
+                window.webkit.messageHandlers.sphere.postMessage(message);
+            }
+        } catch(error) {
+            this._consoleLog(error);
         }
+
     },
 
     setRemainingPoint:function(point) {
-        if (!this._isNumberValue(point)) {
-            console.log("setRemainingPoint: Invalid parameter.");
-            return;
-        }
-        if (this._isSphereAndroid()) {
-            // Call Android interface
-            window.SphereJsInterface.setRemainingPoint(point);
-        } else if (this._isSphereIOS()) {
-            // Call iOS interface
-            var message = {
-                command: "setRemainingPoint",
-                point: point
-            };
-            window.webkit.messageHandlers.sphere.postMessage(message);
+        try {
+            if (!this._isNumberValue(point)) {
+                console.log("setRemainingPoint: Invalid parameter.");
+                return;
+            }
+            if (this._isSphereAndroid()) {
+                // Call Android interface
+                window.SphereJsInterface.setRemainingPoint(point);
+            } else if (this._isSphereIOS()) {
+                // Call iOS interface
+                var message = {
+                    command: "setRemainingPoint",
+                    point: point
+                };
+                window.webkit.messageHandlers.sphere.postMessage(message);
+            }
+        } catch(error) {
+            this._consoleLog(error);
         }
     },
 
     setTotalEarnedPoint:function(point) {
-        if (!this._isNumberValue(point)) {
-            console.log("setTotalEarnedPoint: Invalid parameter.");
-            return;
-        }
-        if (this._isSphereAndroid()) {
-            // Call Android interface
-            window.SphereJsInterface.setTotalEarnedPoint(point);
-        } else if (this._isSphereIOS()) {
-            // Call iOS interface
-            var message = {
-                command: "setTotalEarnedPoint",
-                point: point
-            };
-            window.webkit.messageHandlers.sphere.postMessage(message);
+        try {
+            if (!this._isNumberValue(point)) {
+                console.log("setTotalEarnedPoint: Invalid parameter.");
+                return;
+            }
+            if (this._isSphereAndroid()) {
+                // Call Android interface
+                window.SphereJsInterface.setTotalEarnedPoint(point);
+            } else if (this._isSphereIOS()) {
+                // Call iOS interface
+                var message = {
+                    command: "setTotalEarnedPoint",
+                    point: point
+                };
+                window.webkit.messageHandlers.sphere.postMessage(message);
+            }
+        } catch(error) {
+            this._consoleLog(error);
         }
     },
 
     setTotalUsedPoint:function(point) {
-        if (!this._isNumberValue(point)) {
-            console.log("setTotalUsedPoint: Invalid parameter.");
-            return;
-        }
-        if (this._isSphereAndroid()) {
-            // Call Android interface
-            window.SphereJsInterface.setTotalUsedPoint(point);
-        } else if (this._isSphereIOS()) {
-            // Call iOS interface
-            var message = {
-                command: "setTotalUsedPoint",
-                point: point
-            };
-            window.webkit.messageHandlers.sphere.postMessage(message);
+        try {
+            if (!this._isNumberValue(point)) {
+                console.log("setTotalUsedPoint: Invalid parameter.");
+                return;
+            }
+            if (this._isSphereAndroid()) {
+                // Call Android interface
+                window.SphereJsInterface.setTotalUsedPoint(point);
+            } else if (this._isSphereIOS()) {
+                // Call iOS interface
+                var message = {
+                    command: "setTotalUsedPoint",
+                    point: point
+                };
+                window.webkit.messageHandlers.sphere.postMessage(message);
+            }
+        } catch(error) {
+            this._consoleLog(error);
         }
     },
 
     resetPoints:function() {
-        if (this._isSphereAndroid()) {
-            // Call Android interface
-            window.SphereJsInterface.resetPoints();
-        } else if (this._isSphereIOS()) {
-            // Call iOS interface
-            var message = {
-                command: "resetPoints"
-            };
-            window.webkit.messageHandlers.sphere.postMessage(message);
+        try {
+            if (this._isSphereAndroid()) {
+                // Call Android interface
+                window.SphereJsInterface.resetPoints();
+            } else if (this._isSphereIOS()) {
+                // Call iOS interface
+                var message = {
+                    command: "resetPoints"
+                };
+                window.webkit.messageHandlers.sphere.postMessage(message);
+            }
+        } catch(error) {
+            this._consoleLog(error);
         }
     },
 
@@ -193,33 +238,41 @@ var SphereAnalytics = {
      *              Values can be up to 100 characters long. Setting the value to null removes the user property.
      */
     setUserProperty:function(name, value) {
-      if (this._isSphereAndroid()) {
-        // Call Android interface
-        window.SphereJsInterface.setUserProperty(name, value);
-      } else if (this._isSphereIOS()) {
-        // Call iOS interface
-        var message = {
-          command: 'setUserProperty',
-          name: name,
-          value: value
-        };
-        window.webkit.messageHandlers.sphere.postMessage(message);
-      }
+        try {
+            if (this._isSphereAndroid()) {
+                // Call Android interface
+                window.SphereJsInterface.setUserProperty(name, value);
+            } else if (this._isSphereIOS()) {
+                // Call iOS interface
+                var message = {
+                  command: 'setUserProperty',
+                  name: name,
+                  value: value
+                };
+                window.webkit.messageHandlers.sphere.postMessage(message);
+            }
+        } catch(error) {
+            this._consoleLog(error);
+        }
     },
 
     /**
      * Initialize all user properties.
      */
     resetUserProperties:function() {
-        if (this._isSphereAndroid()) {
-            // Call Android interface
-            window.SphereJsInterface.resetUserProperties();
-        } else if (this._isSphereIOS()) {
-            // Call iOS interface
-            var message = {
-                command: "resetUserProperties"
-            };
-            window.webkit.messageHandlers.sphere.postMessage(message);
+        try {
+            if (this._isSphereAndroid()) {
+                // Call Android interface
+                window.SphereJsInterface.resetUserProperties();
+            } else if (this._isSphereIOS()) {
+                // Call iOS interface
+                var message = {
+                    command: "resetUserProperties"
+                };
+                window.webkit.messageHandlers.sphere.postMessage(message);
+            }
+        } catch(error) {
+            this._consoleLog(error);
         }
     },
 
@@ -227,23 +280,23 @@ var SphereAnalytics = {
      * Request to upload events now.
      */
     requestUpload:function() {
-        if (this._isSphereAndroid()) {
-            // Call Android interface
-            window.SphereJsInterface.requestUpload();
-        } else if (this._isSphereIOS()) {
-            // Call iOS interface
-            var message = {
-                command: "requestUpload"
-            };
-            window.webkit.messageHandlers.sphere.postMessage(message);
+        try {
+            if (this._isSphereAndroid()) {
+                // Call Android interface
+                window.SphereJsInterface.requestUpload();
+            } else if (this._isSphereIOS()) {
+                // Call iOS interface
+                var message = {
+                    command: "requestUpload"
+                };
+                window.webkit.messageHandlers.sphere.postMessage(message);
+            }
+        } catch(error) {
+            this._consoleLog(error);
         }
     },
 
     // private functions
-    _isNumberValue:function(value) {
-        return (typeof value === "number");
-    },
-
     _isSphereAndroid:function() {
         return window.SphereJsInterface;
     },
@@ -252,6 +305,14 @@ var SphereAnalytics = {
         return window.webkit
                && window.webkit.messageHandlers
                && window.webkit.messageHandlers.sphere;
+    },
+
+    _isNumberValue:function(value) {
+        return (typeof value === "number");
+    },
+
+    _consoleLog:function(message) {
+//        console.log(message);
     }
 
 };
