@@ -5,6 +5,7 @@
   * [샘플 소스 및 연동 검증 가이드](#샘플-소스-및-연동-검증-가이드)
   * [SDK 다운로드](#sdk-다운로드)
   * [안드로이드 스튜디오 프로젝트 설정](#안드로이드-스튜디오-프로젝트-설정)
+  * [SDK 업데이트](#SDK-업데이트)
   * [프로가드 설정](#프로가드-설정)
   * [AndroidManifest 설정](#androidmanifest-설정)
   * [SDK 초기화하기](#sdk-초기화하기)
@@ -62,6 +63,11 @@ dependencies {
    implementation(name: 'sphere_sdk', ext: 'aar')
 }
 ```
+
+### SDK 업데이트
+
+SDK 업데이트를 위해 라이브러리(sphere_sdk.aar) 파일을 교체하는 경우 반드시 프로젝트 동기화 작업이 필요합니다.  
+동기화 방법은 안드로이드 스튜디오 상단 메뉴 중 "File" > "Sync Project with Gradle Files"를 선택하면 프로젝트 동기화 작업이 시작됩니다.
 
 ### 프로가드 설정
 
