@@ -47,20 +47,14 @@ SDK 라이브러리를 다운로드하기 위해서는 [SDK 다운로드 페이�
 
 ### 안드로이드 스튜디오 프로젝트 설정
 
-1. 모듈의 libs 폴더에 SDK 파일(.aar)을 복사합니다.
-2. 모듈의 `build.gradle` 파일에 아래 내용을 추가합니다.
+1. 해당 모듈의 libs 폴더에 SDK 파일(.aar)을 복사합니다.
+2. 해당 모듈의 `build.gradle` 파일에 아래 내용을 추가합니다.
 
 `<build.gradle>`
 
 ```script
-repositories {
-   flatDir {
-       dirs 'libs'
-   }
-}
-
 dependencies {
-   implementation(name: 'sphere_sdk', ext: 'aar')
+    implementation files('libs/sphere_sdk.aar')
 }
 ```
 

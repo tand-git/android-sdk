@@ -22,13 +22,6 @@ android {
 
 }
 
-repositories {
-    flatDir {
-        dirs 'libs' }
-}
-
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation(name: 'sphere_sdk', ext: 'aar')
+    implementation files('libs/sphere_sdk.aar')
 }
