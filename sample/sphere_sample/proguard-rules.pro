@@ -22,3 +22,4 @@
 
 -keep class com.sphere.core.* { *;}
 -keep class com.sphere.analytics.* { *;}
+-keep class com.sphere.message.* { *;}
