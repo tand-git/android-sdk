@@ -17,12 +17,9 @@
 * [사용자 속성 사용하기](#사용자-속성-사용하기)
   * [사용자 아이디 설정](#사용자-아이디-설정)
   * [사용자 정보 설정](#사용자-정보-설정)
-  * [사용자 포인트 설정](#사용자-포인트-설정)
   * [커스텀 사용자 속성 설정](#커스텀-사용자-속성-설정)
-  * [사용자 속성 전체 초기화](#사용자-속성-전체-초기화)
 * [추가 설정](#추가-설정)
   * [로그 출력](#로그-출력)
-  * [사용자 세션 관리](#사용자-세션-관리)
   * [이벤트 즉시 전송](#이벤트-즉시-전송)
   * [앱 언어 설정](#앱-언어-설정)
   * [이벤트 수집 비활성화](#이벤트-수집-비활성화)
@@ -126,6 +123,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        // Sphere Analytics SDK 초기화
         SphereAnalytics.configure(this, "Your Sphere SDK App Key");
     }
 }
@@ -160,12 +158,8 @@ android.os.Process.killProcess(android.os.Process.myPid());
 `<Java>`
 
 ```java
-// Add Sphere JavaScript Interface Handler
-mWebView.getSettings().setJavaScriptEnabled(true);
+// Add Sphere JavaScript Interface for Sphere Analytics
 mWebView.addJavascriptInterface(new SphereJsInterface(), "SphereJsInterface");
-
-// Navigate to site
-mWebView.loadUrl("your website url");
 ```
 
 ### 자바스크립트 API
@@ -214,10 +208,10 @@ SphereAnalytics.logEvent("purchase_clicked", null);
 
 > 사용자 속성을 사용할 경우 수집된 이벤트들을 세분화하여 더욱 자세한 분석 정보를 얻을 수 있으며 개인 정보들은 암호화되어 서버에 저장됩니다. 사용자 속성들은 한번 설정되면 이후 재설정 또는 초기화될 때까지 설정된 값으로 유지됩니다.
 
-사용자 속성 연동 시 고려해야 할 사항은 다음과 같으며 가능한 해당되는 모든 시점에 사용자 속성들을 설정해야 정확한 분석이 가능합니다.
+사용자 속성 연동 시 고려해야 할 사항은 다음과 같으며 해당되는 모든 시점에 사용자 속성들을 설정해야 정확한 분석이 가능합니다.
 
-1. 앱이 실행된 후 해당 속성 정보를 알 수 있는 가장 빠른 시점(예:홈 화면 진입)에 사용자 속성들을 설정
-2. 앱 사용 중 해당 사용자 속성이 변경 시 변경된 사용자 속성들을 즉시 설정
+1. 자동 로그인 사용 : 로그인 상태 및 사용자 정보를 알 수 있는 가장 빠른 시점에 로그온 또는 로그오프 상태에 따라 사용자 아이디 및 정보를 설정 또는 초기화
+2. 자동 로그인 미사용 : 로그인 또는 로그아웃 시 해당 상태에 따라 해당 사용자 아이디 및 정보를 설정 또는 초기화
 
 ### 사용자 아이디 설정
 
@@ -242,15 +236,23 @@ if (isLogIn) { // 로그인: ON 상태
 
 ### 사용자 정보 설정
 
-추가적인 사용자 정보(등급, 성별, 출생년도, 전화번호, 이메일)를 설정합니다.  
-설정된 사용자 정보들은 문자형의 경우 `null`로 설정 시 초기화되며 출생년도의 경우 0으로 설정 시 초기화됩니다.  
-Sphere Analytics를 통해 사용자에게 SMS, 카카오톡 알림, 이메일 메시지(2020년 하반기 오픈예정) 보내는 기능을 이용하기 위해서는 전화번호 또는 이메일 정보를 필수로 설정해야 합니다.
+추가적인 사용자 정보(보유 포인트, 등급, 성별, 출생년도, 전화번호, 이메일)를 설정합니다.  
+로그아웃 상태 시 다음과 같이 설정된 사용자 정보들을 초기화해야 합니다.
+
+1. 문자형(등급, 성별, 출생년도, 전화번호, 이메일) 초기화 : `null`로 설정
+2. 숫자형(보유 포인트) 초기화 : `resetPoints` 함수 호출
+3. 숫자형(출생년도) 초기화 : `0`으로 설정
 
 `<Java>`
 
 ```java
 if (isLogIn) { // 로그인: ON 상태
 
+    // 사용자 아이디 설정 - 로그인: ON 상태
+    SphereAnalytics.setUserId("[USER ID]");
+
+    // 보유 포인트 설정
+    SphereAnalytics.setRemainingPoint(1000);
     // 등급 설정
     SphereAnalytics.setGrade("vip");
     // 성별 설정
@@ -265,6 +267,11 @@ if (isLogIn) { // 로그인: ON 상태
 
 } else { // 로그아웃: OFF 상태
 
+    // 사용자 아이디 초기화 - 로그아웃: OFF 상태
+    SphereAnalytics.setUserId(null);
+
+    // 보유 포인트 초기화
+    SphereAnalytics.resetPoints();
     // 등급 초기화
     SphereAnalytics.setGrade(null);
     // 성별 초기화
@@ -279,29 +286,6 @@ if (isLogIn) { // 로그인: ON 상태
 }
 ```
 
-### 사용자 포인트 설정
-
-사용자의 포인트 정보(현재 보유 포인트, 총 적립 포인트, 총 사용 포인트)를 설정합니다.  
-설정된 사용자 포인트 정보들은 `resetPoints` 함수 호출 시 일괄적으로 초기화 됩니다.  
-설정 가능한 포인트의 종류는 다음과 같으며 가능한 모든 포인트 정보를 설정해야 더욱 자세한 사용자 분석이 가능합니다.
-
-`<Java>`
-
-```java
-if (isLogIn) { // 로그인: ON 상태
-
-    // 사용자 포인트 설정
-    SphereAnalytics.setRemainingPoint(1000); // 현재 보유 포인트
-    SphereAnalytics.setTotalEarnedPoint(5000); // 총 적립 포인트
-    SphereAnalytics.setTotalUsedPoint(4000); // 총 사용 포인트
-
-} else { // 로그아웃: OFF 상태
-
-    // 사용자 포인트 초기화(현재 보유 포인트, 총 적립 포인트, 총 사용 포인트)
-    SphereAnalytics.resetPoints();
-}
-```
-
 ### 커스텀 사용자 속성 설정
 
 미리 정의되지 않은 사용자 속성 정보를 사용 시 `setUserProperty` 함수를 이용하여 커스텀 사용자 속성을 설정할 수 있습니다.  
@@ -310,9 +294,10 @@ if (isLogIn) { // 로그인: ON 상태
 사용자 속성에 관한 규칙은 다음과 같습니다.
 
 1. 사용자 속성명
-    * 최대 40자  
-    * 영문 대소문자, 숫자, 특수문자 중 ‘_’ 만 허용  
+    * 최대 40자
+    * 영문 대소문자, 숫자, 특수문자 중 ‘_’ 만 허용
     * 첫 글자는 영문 대소문자만 허용
+    * "sap"으로 시작되는 속성명은 사전 정의된 속성명으로 사용 불가
 
 2. 사용자 속성값
     * 최대 100자
@@ -325,20 +310,6 @@ if (isLogIn) { // 로그인: ON 상태
 SphereAnalytics.setUserProperty("user_property_name", "user_property_value");
 // 커스텀 사용자 속성 초기화
 SphereAnalytics.setUserProperty("user_property_name", null);
-```
-
-### 사용자 속성 전체 초기화
-
-현재까지 설정된 전체 사용자 속성을 초기화합니다. 대상이 되는 속성들은 다음과 같습니다.
-
-1. 사용자 아이디
-2. 사용자 정보: 등급, 성별, 출생년도, 전화번호, 이메일
-3. 사용자 포인트: 현재 보유 포인트, 총 적립 포인트, 총 사용 포인트
-4. 커스텀 사용자 속성
-
-```java
-// 사용자 속성 전체 초기화
-SphereAnalytics.resetUserProperties();
 ```
 
 ## 추가 설정
@@ -354,22 +325,6 @@ SphereAnalytics.resetUserProperties();
 
 ```java
 SphereAnalytics.enableLog(true); // 활성화
-```
-
-### 사용자 세션 관리
-
-사용자의 앱 사용 시간은 세션 관리를 통해 기록되며 사용자 세션 정보를 위한 신규 세션 생성 규칙은 다음과 같습니다.  
-앱 종료 후 일정 시간(기본 설정: 30분)이 지나고 앱 실행 시 신규 세션이 시작되고 "#session" 이벤트가 기록됩니다.
-
-* 앱이 비활성화 상태에서 활성화 상태로 변경 시 타임아웃 시간(기본 설정: 30분)이 경과한 후에만 신규 세션 시작
-* 앱이 활성화 시 이전 세션의 시작 시간과 날짜가 변경된 경우 신규 세션 시작
-
-아래 코드를 통해 사용자 세션 타임아웃 시간을 변경할 수 있습니다. (기본 설정: 5분)  
-
-`<Java>`
-
-```java
-SphereAnalytics.setSessionTimeout(1000 * 60); // 1분
 ```
 
 ### 이벤트 즉시 전송

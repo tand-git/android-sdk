@@ -16,11 +16,14 @@ public class SampleWebViewActivity extends Activity {
 
         setContentView(R.layout.activity_webview);
 
+        // Initialize the webview
         mWebView = findViewById(R.id.webview);
-
-        // Add Sphere JavaScript Interface Handler
         mWebView.getSettings().setJavaScriptEnabled(true);
+
+
+        // Add Sphere JavaScript Interface for Sphere Analytics
         mWebView.addJavascriptInterface(new SphereJsInterface(), "SphereJsInterface");
+
 
         // Navigate to site
         String folderPath = "file:android_asset/";

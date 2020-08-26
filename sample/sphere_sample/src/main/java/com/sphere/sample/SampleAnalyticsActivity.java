@@ -24,9 +24,6 @@ public class SampleAnalyticsActivity extends Activity {
                         .setParam("price", 9.9);
                 // 이벤트 기록
                 SphereAnalytics.logEvent("purchase", paramBuilder);
-
-                // 파라미터가 없는 이벤트 기록
-                SphereAnalytics.logEvent("purchase_clicked", null);
             }
         });
 
@@ -41,6 +38,8 @@ public class SampleAnalyticsActivity extends Activity {
                     // 사용자 아이디 설정
                     SphereAnalytics.setUserId("[USER ID]");
 
+                    // 보유 포인트 설정
+                    SphereAnalytics.setRemainingPoint(1000);
                     // 등급 설정
                     SphereAnalytics.setGrade("vip");
                     // 성별 설정
@@ -53,16 +52,13 @@ public class SampleAnalyticsActivity extends Activity {
                     // 전화번호 설정
                     SphereAnalytics.setPhoneNumber("821011112222");
 
-                    // 사용자 포인트 설정
-                    SphereAnalytics.setRemainingPoint(1000); // 현재 보유 포인트
-                    SphereAnalytics.setTotalEarnedPoint(5000); // 총 적립 포인트
-                    SphereAnalytics.setTotalUsedPoint(4000); // 총 사용 포인트
-
                 } else { // 로그아웃: OFF 상태
 
                     // 사용자 아이디 초기화
                     SphereAnalytics.setUserId(null);
 
+                    // 보유 포인트 초기화
+                    SphereAnalytics.resetPoints();
                     // 등급 초기화
                     SphereAnalytics.setGrade(null);
                     // 성별 초기화
@@ -73,25 +69,17 @@ public class SampleAnalyticsActivity extends Activity {
                     SphereAnalytics.setEmail(null);
                     // 전화번호 초기화
                     SphereAnalytics.setPhoneNumber(null);
-
-                    // 사용자 포인트 초기화(현재 보유 포인트, 총 적립 포인트, 총 사용 포인트)
-                    SphereAnalytics.resetPoints();
                 }
-
-                // 커스텀 사용자 속성 설정
-                SphereAnalytics.setUserProperty("user_property_name", "user_property_value");
-                // 커스텀 사용자 속성 초기화
-//                SphereAnalytics.setUserProperty("user_property_name", null);
             }
         });
+    }
 
-        findViewById(R.id.reset_user_properties).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 사용자 속성 전체 초기화
-                SphereAnalytics.resetUserProperties();
-            }
-        });
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // 파라미터가 없는 이벤트 기록
+        SphereAnalytics.logEvent("purchaseView", null);
     }
 
     @Override

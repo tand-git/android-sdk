@@ -1,3 +1,4 @@
+// Sphere Analytics Javascript API Version 1.0.0
 var SphereAnalytics = {
 
     /**
@@ -296,6 +297,30 @@ var SphereAnalytics = {
         }
     },
 
+    /**
+     * Enable to print logs of analytics for debugging your app. By default it is disabled.
+     * @param enable Whether print logs or not.
+     */
+    enableLog:function(enable) {
+        try {
+            this.isLogEnabled = enable;
+
+            if (this._isSphereAndroid()) {
+                // Call Android interface
+                window.SphereJsInterface.enableLog(enable);
+            } else if (this._isSphereIOS()) {
+                // Call iOS interface
+                var message = {
+                    command: "enableLog",
+                    enable: enable
+                };
+                window.webkit.messageHandlers.sphere.postMessage(message);
+            }
+        } catch(error) {
+            this._consoleLog(error);
+        }
+    },
+
     // private functions
     _isSphereAndroid:function() {
         return window.SphereJsInterface;
@@ -311,8 +336,11 @@ var SphereAnalytics = {
         return (typeof value === "number");
     },
 
+    isLogEnabled: false,
     _consoleLog:function(message) {
-//        console.log(message);
+        if (this.isLogEnabled) {
+            console.log(message);
+        }
     }
 
 };
