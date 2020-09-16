@@ -1,4 +1,4 @@
-# Sphere SDK - Android
+# Sphere Android SDK
 
 * [기본 연동](#기본-연동)
   * [Sphere Analytics 시작하기](#sphere-analytics-시작하기)
@@ -111,7 +111,7 @@ Sphere SDK 라이브러리를 프로젝트에 추가하였다면 다음 코드�
 </application>
 ```
 
-`<MyApplication.java>`
+`<Java> - MyApplication.java`
 
 ```java
 import android.app.Application;
@@ -125,6 +125,24 @@ public class MyApplication extends Application {
 
         // Sphere Analytics SDK 초기화
         SphereAnalytics.configure(this, "Your Sphere SDK App Key");
+    }
+}
+```
+
+`<Kotlin> - MyApplication.kt`
+
+```kt
+import android.app.Application
+import com.sphere.analytics.SphereAnalytics
+import com.sphere.message.SphereInAppMessage
+
+class SampleApp : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+
+        // Sphere Analytics SDK 초기화
+        SphereAnalytics.configure(this, "Your Sphere SDK App Key")
     }
 }
 ```
@@ -162,10 +180,17 @@ android.os.Process.killProcess(android.os.Process.myPid());
 mWebView.addJavascriptInterface(new SphereJsInterface(), "SphereJsInterface");
 ```
 
+`<Kotlin>`
+
+```kt
+// Add Sphere JavaScript Interface for Sphere Analytics
+webView.addJavascriptInterface(SphereJsInterface(), "SphereJsInterface")
+```
+
 ### 자바스크립트 API
 
-기본 연동 및 웹뷰 설정이 정상적으로 완료되었다면 웹서버에서 자바스크립트 API를 통해 이벤트 수집이 가능합니다.  
-웹뷰용 자바스크립트 API를 사용하기 위해서는 [웹뷰용 자바스크립트 가이드](https://github.com/tand-git/web-sdk)를 참고하시기 바랍니다.
+기본 연동 및 웹뷰 설정이 정상적으로 완료되었다면 웹뷰를 이용한 웹 환경에서 자바스크립트 API를 통해 이벤트 수집이 가능합니다.  
+자바스크립트 API를 사용하기 위해서는 [Sphere Web SDK 연동 가이드](https://github.com/tand-git/web-sdk)를 참고하시기 바랍니다.
 
 ## 커스텀 이벤트 사용하기
 
@@ -201,7 +226,22 @@ ParamBuilder paramBuilder = new ParamBuilder()
 SphereAnalytics.logEvent("purchase", paramBuilder);
 
 // 파라미터가 없는 이벤트 기록
-SphereAnalytics.logEvent("purchase_clicked", null);
+SphereAnalytics.logEvent("purchaseView", null);
+```
+
+`<Kotlin>`
+
+```kt
+// 이벤트 파라미터 설정
+val paramBuilder = ParamBuilder()
+        .setParam("item", "notebook")
+        .setParam("quantity", 1)
+        .setParam("price", 9.9)
+// 이벤트 기록
+SphereAnalytics.logEvent("purchase", paramBuilder)
+
+// 파라미터가 없는 이벤트 기록
+SphereAnalytics.logEvent("purchaseView", null);
 ```
 
 ## 사용자 속성 사용하기
@@ -210,8 +250,8 @@ SphereAnalytics.logEvent("purchase_clicked", null);
 
 사용자 속성 연동 시 고려해야 할 사항은 다음과 같으며 해당되는 모든 시점에 사용자 속성들을 설정해야 정확한 분석이 가능합니다.
 
-1. 자동 로그인 사용 : 로그인 상태 및 사용자 정보를 알 수 있는 가장 빠른 시점에 로그온 또는 로그오프 상태에 따라 사용자 아이디 및 정보를 설정 또는 초기화
-2. 자동 로그인 미사용 : 로그인 또는 로그아웃 시 해당 상태에 따라 해당 사용자 아이디 및 정보를 설정 또는 초기화
+1. (필수) 실행 후 현재 로그인 여부를 알 수 있는 가장 빠른 시점에 로그온 또는 로그오프 상태에 따라 사용자 아이디 및 사용자 정보를 설정 또는 초기화
+2. 로그인 또는 로그아웃 상태 변경 시 해당 상태에 따라 해당 사용자 아이디 및 사용자 정보를 설정 또는 초기화
 
 ### 사용자 아이디 설정
 
@@ -231,6 +271,21 @@ if (isLogIn) { // 로그인: ON 상태
 
     // 사용자 아이디 초기화 - 로그아웃: OFF 상태
     SphereAnalytics.setUserId(null);
+}
+```
+
+`<Kotlin>`
+
+```kt
+if (isLogIn) { // 로그인: ON 상태
+
+    // 사용자 아이디 설정
+    SphereAnalytics.setUserId("[USER ID]")
+
+} else { // 로그아웃: OFF 상태
+
+    // 사용자 아이디 초기화
+    SphereAnalytics.setUserId(null)
 }
 ```
 
@@ -286,6 +341,48 @@ if (isLogIn) { // 로그인: ON 상태
 }
 ```
 
+`<Kotlin>`
+
+```kt
+if (isLogIn) { // 로그인: ON 상태
+
+    // 사용자 아이디 설정
+    SphereAnalytics.setUserId("[USER ID]")
+
+    // 보유 포인트 설정
+    SphereAnalytics.setRemainingPoint(1000)
+    // 등급 설정
+    SphereAnalytics.setGrade("vip")
+    // 성별 설정
+    SphereAnalytics.setGender("m") // 남성일 경우: "m"
+//    SphereAnalytics.setGender("f"); // 여성일 경우: "f"
+    // 출생년도 설정
+    SphereAnalytics.setBirthYear(1995) // 출생년도
+    // 이메일 설정
+    SphereAnalytics.setEmail("xxxx@xxxx.com")
+    // 전화번호 설정
+    SphereAnalytics.setPhoneNumber("821011112222")
+
+} else { // 로그아웃: OFF 상태
+
+    // 사용자 아이디 초기화
+    SphereAnalytics.setUserId(null)
+
+    // 보유 포인트 초기화
+    SphereAnalytics.resetPoints()
+    // 등급 초기화
+    SphereAnalytics.setGrade(null)
+    // 성별 초기화
+    SphereAnalytics.setGender(null)
+    // 출생년도 초기화
+    SphereAnalytics.setBirthYear(0)
+    // 이메일 초기화
+    SphereAnalytics.setEmail(null)
+    // 전화번호 초기화
+    SphereAnalytics.setPhoneNumber(null)
+}
+```
+
 ### 커스텀 사용자 속성 설정
 
 미리 정의되지 않은 사용자 속성 정보를 사용 시 `setUserProperty` 함수를 이용하여 커스텀 사용자 속성을 설정할 수 있습니다.  
@@ -312,6 +409,15 @@ SphereAnalytics.setUserProperty("user_property_name", "user_property_value");
 SphereAnalytics.setUserProperty("user_property_name", null);
 ```
 
+`<Kotlin>`
+
+```kt
+// 커스텀 사용자 속성 설정
+SphereAnalytics.setUserProperty("user_property_name", "user_property_value")
+// 커스텀 사용자 속성 초기화
+SphereAnalytics.setUserProperty("user_property_name", null)
+```
+
 ## 추가 설정
 
 > 추가 설정은 필수적인 연동 사항은 아니며 필요한 경우 선택적으로 사용이 가능합니다.
@@ -327,13 +433,27 @@ SphereAnalytics.setUserProperty("user_property_name", null);
 SphereAnalytics.enableLog(true); // 활성화
 ```
 
+`<Kotlin>`
+
+```kt
+SphereAnalytics.enableLog(true) // 활성화
+```
+
 ### 이벤트 즉시 전송
 
 기본적으로 Sphere Analytics는 앱이 실행된 후 비활성화되는 시점에 자동으로 기록된 모든 이벤트들을 서버에 전송합니다.  
 하지만 `requestUpload` 함수를 호출할 경우 호출 시점까지 기록된 모든 이벤트들을 즉시 서버로 전송이 가능하며 해당 시점에 즉시 이벤트 수집이 필요한 경우에만 사용하기를 권장합니다.
 
+`<Java>`
+
 ```java
 SphereAnalytics.requestUpload();
+```
+
+`<Kotlin>`
+
+```kt
+SphereAnalytics.requestUpload()
 ```
 
 ### 이벤트 수집 비활성화
@@ -345,4 +465,10 @@ Sphere Analytics의 이벤트 수집 기능을 비활성화하기를 원할 경�
 
 ```java
 SphereAnalytics.setAnalyticsCollectionEnabled(false); // 비활성화
+```
+
+`<Kotlin>`
+
+```kt
+SphereAnalytics.setAnalyticsCollectionEnabled(false) // 비활성화
 ```

@@ -3,7 +3,6 @@ package com.sphere.sample;
 import android.app.Application;
 
 import com.sphere.analytics.SphereAnalytics;
-import com.sphere.message.SphereInAppMessage;
 
 public class SampleApp extends Application {
 
@@ -16,8 +15,5 @@ public class SampleApp extends Application {
 
         // Sphere Analytics SDK 초기화
         SphereAnalytics.configure(this, "Your Sphere SDK App Key");
-
-        // Sphere In-App Message 활성화
-//        SphereInAppMessage.start();
     }
 }
