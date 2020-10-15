@@ -10,9 +10,8 @@
         // SDK 검증 로그 활성화
         SphereAnalytics.setLogLevel("info");
 
-        // 웹 브라우저 사용자의 데이터 수집을 위한 Web SDK 초기화
-        // 앱을 통한 사용자의 이벤트만 수집할 경우에는 Web SDK 초기화 X
-//        SphereAnalytics.init('[web Key]');
+        // 웹브라우저 지원시에만 Web SDK 초기화 필요
+        //SphereAnalytics.init("[web Key]");
     </script>
 </head>
 
