@@ -178,14 +178,14 @@ android.os.Process.killProcess(android.os.Process.myPid());
 
 ```java
 // Add Sphere JavaScript Interface for Sphere Analytics
-mWebView.addJavascriptInterface(new SphereJsInterface(), "SphereJsInterface");
+webView.addJavascriptInterface(new SphereJsInterface(), SphereJsInterface.getHandlerName());
 ```
 
 `<Kotlin>`
 
 ```kt
 // Add Sphere JavaScript Interface for Sphere Analytics
-webView.addJavascriptInterface(SphereJsInterface(), "SphereJsInterface")
+webView.addJavascriptInterface(SphereJsInterface(), SphereJsInterface.getHandlerName())
 ```
 
 ### 자바스크립트 API

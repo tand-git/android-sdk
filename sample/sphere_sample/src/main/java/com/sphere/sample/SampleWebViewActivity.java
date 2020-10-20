@@ -20,12 +20,11 @@ public class SampleWebViewActivity extends Activity {
 
 
         // Add Sphere JavaScript Interface for Sphere Analytics
-        webView.addJavascriptInterface(new SphereJsInterface(), "SphereJsInterface");
+        webView.addJavascriptInterface(new SphereJsInterface(), SphereJsInterface.getHandlerName());
 
 
         // Navigate to site
         webView.loadUrl("file:///android_asset/index.html");
 //        webView.loadUrl("your website url");
     }
-
 }

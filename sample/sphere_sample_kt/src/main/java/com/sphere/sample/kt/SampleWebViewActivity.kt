@@ -7,8 +7,6 @@ import com.sphere.analytics.SphereJsInterface
 
 class SampleWebViewActivity : Activity() {
 
-//    private var mWebView: WebView? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_webview)
@@ -19,7 +17,7 @@ class SampleWebViewActivity : Activity() {
 
 
         // Add Sphere JavaScript Interface for Sphere Analytics
-        webView.addJavascriptInterface(SphereJsInterface(), "SphereJsInterface")
+        webView.addJavascriptInterface(SphereJsInterface(), SphereJsInterface.getHandlerName())
 
 
         // Navigate to site
