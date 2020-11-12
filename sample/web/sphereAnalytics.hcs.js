@@ -1,8 +1,8 @@
 // Sphere Analytics Javascript API Version 1.0.0 for HCS
 
 var SphereAnalytics = {
-    androidInterfaceName:"sphereJsHandler",
-    iosInterfaceName:"sphereJsHandler",
+    androidInterfaceName:"TagJSInterface",
+    iosInterfaceName:"TagJSInterface",
 
     logEvent:function(name, params) {
         try {
@@ -196,7 +196,7 @@ var SphereAnalytics = {
         if (this.sphereAndroidInterface) {
             this.sphereAndroidInterface.postMessage(JSON.stringify(this._sphereHandlerMessage(message)));
         } else if (this.sphereIOSInterface) {
-            this.sphereIOSInterface.postMessage(this._sphereHandlerMessage(message));
+            this.sphereIOSInterface.postMessage(JSON.stringify(this._sphereHandlerMessage(message)));
         }
     },
     _sphereHandlerMessage:function(message) {
