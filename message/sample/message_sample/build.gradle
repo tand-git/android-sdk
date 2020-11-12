@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'  // Google Services plugin
+}
+
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        applicationId "com.sphere.sample.message"
+        minSdkVersion 18
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    // Import the Sphere SDK library file
+    implementation files('../libs/sphere_sdk.aar')
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+
+    // Add the dependency for the Firebase SDK for Google Analytics
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-messaging'
+
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+}

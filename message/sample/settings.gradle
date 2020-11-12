@@ -1,0 +1,3 @@
+include ':message_sample_kt'
+include ':message_sample'
+rootProject.name = "message_sample"

@@ -5,32 +5,35 @@
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.5">
 
     <!-- Web SDK 설치 -->
-    <script src="sphereAnalytics.min.js"></script>
+    <script src="sphereAnalytics.js"></script>
     <script type="text/javascript">
         // SDK 검증 로그 활성화
         SphereAnalytics.setLogLevel("info");
-
-        // 웹브라우저 지원시에만 Web SDK 초기화 필요
-        //SphereAnalytics.init("[web Key]");
     </script>
 </head>
 
 <body>
-    <h4>Sphere Analytics Web SDK Sample</h4>
+    <h4>Sphere WebView SDK Sample</h4>
 
     <button onclick="event_click()">Log Event</button>
     <br/><br/>
     <button onclick="user_property_click()">Set User Property</button>
+    <br/><br/>
+
+    [푸시 동의 설정]
+    <button onclick="user_push_agree(true)">동의</button>
+    <button onclick="user_push_agree(false)">거부</button>
 
     <script type="text/javascript">
 
-        // 파라미터가 없는 이벤트 기록
-        SphereAnalytics.logEvent("purchaseView", null);
-
         function event_click() {
-            // 이벤트 및 파라미터 기록. 파라미터 형식: JSON 타입 { name : value, ... }
-            var params = { item: "notebook", price: 9.9, quantity: 1 };
-            SphereAnalytics.logEvent("purchase", params);
+            // 파라미터를 포함한 이벤트 기록
+            // 파라미터 형식: JSON 타입 { name:value, ... }
+            var params = { param_name_1: "param_value", param_name_2: 9.9, param_name_3: 1 };
+            SphereAnalytics.logEvent("event_name_1", params);
+
+            // 파라미터가 없는 이벤트 기록
+            SphereAnalytics.logEvent("event_name_2", null);
         }
 
         function user_property_click() {
@@ -74,6 +77,15 @@
                 // 전화번호 초기화
                 SphereAnalytics.setPhoneNumber(null);
             }
+        }
+
+        function user_push_agree(agree) {
+            // 정보성 푸시 발송 동의 설정 (허용:true, 거부:false)
+            SpherePushMessage.agreePushMessageForInformation(agree);
+            // 광고성 푸시 발송 동의 설정 (허용:true, 거부:false)
+            SpherePushMessage.agreePushMessageForAdvertisement(agree);
+            // 야간 푸시 발송 동의 설정 (허용:true, 거부:false)
+            SpherePushMessage.agreePushMessageAtNight(agree);
         }
     </script>
 

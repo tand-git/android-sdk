@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "418886372338",
+    "firebase_url": "https://sphere-message-sample.firebaseio.com",
+    "project_id": "sphere-message-sample",
+    "storage_bucket": "sphere-message-sample.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418886372338:android:762103330e96f44da1b96b",
+        "android_client_info": {
+          "package_name": "com.sphere.sample.message"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418886372338-9h94mara35bqt95malor099mlg8uk2lk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDkKY065Zl4lInjQfVTEYr_XG4ZI63A3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "418886372338-9h94mara35bqt95malor099mlg8uk2lk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "418886372338-dfgmjnlrm7719mj5v6nn6paddcfpsik4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sphere.sample.message"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418886372338:android:8e87e24611f3a060a1b96b",
+        "android_client_info": {
+          "package_name": "com.sphere.sample.message.kt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418886372338-9h94mara35bqt95malor099mlg8uk2lk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDkKY065Zl4lInjQfVTEYr_XG4ZI63A3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "418886372338-9h94mara35bqt95malor099mlg8uk2lk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "418886372338-dfgmjnlrm7719mj5v6nn6paddcfpsik4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sphere.sample.message"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

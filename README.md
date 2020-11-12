@@ -213,36 +213,33 @@ SDK가 초기화 되었다면 `logEvent` 함수를 이용하여 커스텀 이벤
     * 첫 글자는 영문 대소문자만 허용
 
 3. 파라미터값
-    * 지원 타입 : String(최대 100자), int, long, float, double
+    * 지원 타입 : String(최대 100자), long, double
 
 `<Java>`
 
 ```java
-// 이벤트 파라미터 설정
+// 파라미터를 포함한 이벤트 기록
 ParamBuilder paramBuilder = new ParamBuilder()
-    .setParam("item", "notebook")
-    .setParam("quantity", 1)
-    .setParam("price", 9.9);
-// 이벤트 기록
-SphereAnalytics.logEvent("purchase", paramBuilder);
+        .setParam("param_name_1", "param_value")
+        .setParam("param_name_2", 1)
+        .setParam("param_name_3", 9.9);
+SphereAnalytics.logEvent("event_name_1", paramBuilder);
 
 // 파라미터가 없는 이벤트 기록
-SphereAnalytics.logEvent("purchaseView", null);
+SphereAnalytics.logEvent("event_name_2", null);
 ```
 
 `<Kotlin>`
 
 ```kt
-// 이벤트 파라미터 설정
 val paramBuilder = ParamBuilder()
-        .setParam("item", "notebook")
-        .setParam("quantity", 1)
-        .setParam("price", 9.9)
-// 이벤트 기록
-SphereAnalytics.logEvent("purchase", paramBuilder)
+        .setParam("param_name_1", "param_value")
+        .setParam("param_name_2", 1)
+        .setParam("param_name_3", 9.9)
+SphereAnalytics.logEvent("event_name_1", paramBuilder)
 
 // 파라미터가 없는 이벤트 기록
-SphereAnalytics.logEvent("purchaseView", null);
+SphereAnalytics.logEvent("event_name_2", null)
 ```
 
 ## 사용자 속성 사용하기
