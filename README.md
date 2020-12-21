@@ -10,11 +10,11 @@
   * [AndroidManifest 설정](#androidmanifest-설정)
   * [SDK 초기화하기](#sdk-초기화하기)
   * [프로세스 강제 종료 시 추가 설정](#프로세스-강제-종료-시-추가-설정)
-* [웹뷰 설정](#웹뷰-설정)
+* [웹뷰 연동](#웹뷰-연동)
   * [웹뷰 자바스크립트 인터페이스 핸들러 등록](#웹뷰-자바스크립트-인터페이스-핸들러-등록)
   * [자바스크립트 API](#자바스크립트-API)
-* [커스텀 이벤트 사용하기](#커스텀-이벤트-사용하기)
-* [사용자 속성 사용하기](#사용자-속성-사용하기)
+* [이벤트 연동하기](#이벤트-연동하기)
+* [사용자 속성 연동하기](#사용자-속성-연동하기)
   * [사용자 아이디 설정](#사용자-아이디-설정)
   * [사용자 정보 설정](#사용자-정보-설정)
   * [커스텀 사용자 속성 설정](#커스텀-사용자-속성-설정)
@@ -31,7 +31,7 @@
 ### Sphere Analytics 시작하기
 
 Sphere Analytics 사용을 위해서는 기본적으로 앱키(App key)가 필요합니다.  
-앱키가 없는 경우 [Sphere Analytics 콘솔](https://analytics.tand.kr)을 방문하여 회원 가입 및 로그인 후 앱을 등록하여 앱키를 발급받습니다.
+앱키가 없는 경우 Sphere Analytics 콘솔([https://analytics.tand.kr](https://analytics.tand.kr), Chrome 브라우저 활용)을 방문하여 회원 가입 및 로그인 후 앱등록 단계에서 앱키를 발급받습니다.
 
 ### 샘플 소스 및 연동 검증 가이드
 
@@ -162,9 +162,9 @@ SphereAnalytics.updateSessionBeforeProcessKill();
 android.os.Process.killProcess(android.os.Process.myPid());
 ```
 
-## 웹뷰 설정
+## 웹뷰 연동
 
-> 웹뷰를 이용하는 웹앱의 경우 웹뷰 설정은 필수 연동 사항입니다.
+> 웹뷰를 이용하는 웹앱의 경우 웹뷰 연동은 필수사항입니다.
 
 웹뷰를 이용한 웹앱의 경우 이벤트를 수집하기 위해서는 자바스크립트 인터페이스 핸들러를 통해 네이티브 API를 호출해야 합니다.  
 [샘플 소스](sample)를 참조하면 웹뷰를 통해 연동된 전체 샘플 소스를 확인할 수 있습니다.
@@ -190,14 +190,14 @@ webView.addJavascriptInterface(SphereJsInterface(), "SphereJsInterface")
 
 ### 자바스크립트 API
 
-기본 연동 및 웹뷰 설정이 정상적으로 완료되었다면 웹뷰를 이용한 웹 환경에서 자바스크립트 API를 통해 이벤트 수집이 가능합니다.  
+기본 연동 및 웹뷰 연동이 정상적으로 완료되었다면 웹뷰를 이용한 웹 환경에서 자바스크립트 API를 통해 이벤트 수집이 가능합니다.  
 자바스크립트 API를 사용하기 위해서는 [Sphere Web SDK 연동 가이드](https://github.com/tand-git/web-sdk)를 참고하시기 바랍니다.
 
-## 커스텀 이벤트 사용하기
+## 이벤트 연동하기
 
 > 이벤트는 가장 기본이 되는 수집 정보이며 이벤트는 이벤트명과 파라미터들로 구성이 됩니다.
 
-SDK가 초기화 되었다면 `logEvent` 함수를 이용하여 커스텀 이벤트를 설정할 수 있으며, 한 이벤트는 최대 25개의 파라미터를 설정할 수 있습니다.
+SDK가 초기화 되었다면 `logEvent` 함수를 이용하여 이벤트를 연동할 수 있으며, 한 이벤트는 최대 25개의 파라미터를 설정할 수 있습니다.
 파라미터는 파라미터명과 파라미터값의 쌍으로 구성되며 `ParamBuilder` 클래스를 통해 설정이 가능합니다.
 
 이벤트명은 필수이며 파라미터는 없는 경우 `null`로 설정 가능합니다. 이벤트명과 파라미터에 관한 규칙은 다음과 같습니다.
@@ -242,7 +242,7 @@ SphereAnalytics.logEvent("event_name_1", paramBuilder)
 SphereAnalytics.logEvent("event_name_2", null)
 ```
 
-## 사용자 속성 사용하기
+## 사용자 속성 연동하기
 
 > 사용자 속성을 사용할 경우 수집된 이벤트들을 세분화하여 더욱 자세한 분석 정보를 얻을 수 있으며 개인 정보들은 암호화되어 서버에 저장됩니다. 사용자 속성들은 한번 설정되면 이후 재설정 또는 초기화될 때까지 설정된 값으로 유지됩니다.
 
@@ -253,8 +253,9 @@ SphereAnalytics.logEvent("event_name_2", null)
 
 ### 사용자 아이디 설정
 
+사용자 아이디는 고객이 고객사의 서비스에 로그인할 때 사용되는 아이디가 아니라, 고객사의 시스템에서 사용자를 관리하는 고유한 식별값을 의미합니다.
 고유한 사용자를 구분하기 위한 사용자 아이디로서 설정 여부에 따라 로그인 여부를 판단합니다.  
-해당 정보는 유저를 구분하기 위한 용도로만 사용되므로 사용자를 구분하는 어떠한 식별 아이디도 사용 가능합니다.  
+해당 정보는 유저를 구분하기 위한 용도로만 사용되므로 사용자를 식별하는 고유한 (Unique) 어떠한 식별 아이디도 사용 가능합니다.  
 사용자 아이디는 최대 256자까지 설정가능하고 `null`로 설정 시 사용자 아이디 정보는 초기화되고 로그아웃 상태로 설정됩니다.  
 
 `<Java>`
@@ -289,10 +290,10 @@ if (isLogIn) { // 로그인: ON 상태
 
 ### 사용자 정보 설정
 
-추가적인 사용자 정보(보유 포인트, 등급, 성별, 출생년도, 전화번호, 이메일)를 설정합니다.  
+추가적인 사용자 정보(보유 포인트, 등급, 성별, 출생년도)를 설정합니다.  
 로그아웃 상태 시 다음과 같이 설정된 사용자 정보들을 초기화해야 합니다.
 
-1. 문자형(등급, 성별, 출생년도, 전화번호, 이메일) 초기화 : `null`로 설정
+1. 문자형(등급, 성별) 초기화 : `null`로 설정
 2. 숫자형(보유 포인트) 초기화 : `resetPoints` 함수 호출
 3. 숫자형(출생년도) 초기화 : `0`으로 설정
 
@@ -313,10 +314,6 @@ if (isLogIn) { // 로그인: ON 상태
 //    SphereAnalytics.setGender("f"); // 여성일 경우: "f"
     // 출생년도 설정
     SphereAnalytics.setBirthYear(1995); // 출생년도
-    // 이메일 설정
-    SphereAnalytics.setEmail("xxxx@xxxx.com");
-    // 전화번호 설정
-    SphereAnalytics.setPhoneNumber("821011112222");
 
 } else { // 로그아웃: OFF 상태
 
@@ -331,11 +328,6 @@ if (isLogIn) { // 로그인: ON 상태
     SphereAnalytics.setGender(null);
     // 출생년도 초기화
     SphereAnalytics.setBirthYear(0);
-    // 이메일 초기화
-    SphereAnalytics.setEmail(null);
-    // 전화번호 초기화
-    SphereAnalytics.setPhoneNumber(null);
-
 }
 ```
 
@@ -356,10 +348,6 @@ if (isLogIn) { // 로그인: ON 상태
 //    SphereAnalytics.setGender("f"); // 여성일 경우: "f"
     // 출생년도 설정
     SphereAnalytics.setBirthYear(1995) // 출생년도
-    // 이메일 설정
-    SphereAnalytics.setEmail("xxxx@xxxx.com")
-    // 전화번호 설정
-    SphereAnalytics.setPhoneNumber("821011112222")
 
 } else { // 로그아웃: OFF 상태
 
@@ -374,10 +362,6 @@ if (isLogIn) { // 로그인: ON 상태
     SphereAnalytics.setGender(null)
     // 출생년도 초기화
     SphereAnalytics.setBirthYear(0)
-    // 이메일 초기화
-    SphereAnalytics.setEmail(null)
-    // 전화번호 초기화
-    SphereAnalytics.setPhoneNumber(null)
 }
 ```
 
