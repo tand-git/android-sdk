@@ -72,9 +72,9 @@ SDK 업데이트를 위해 라이브러리(sphere_sdk.aar) 파일을 교체하�
 
 ### AndroidManifest 설정
 
-인터넷 연결 및 네트워크 연결 상태 확인을 위해 `AndroidManifest.xml` 파일에 권한을 설정합니다.
+1. 권한 설정
 
-* 필수 권한
+인터넷 연결 및 네트워크 연결 상태 확인을 위해 사용 권한이 필요합니다.
 
 `<AndroidManifest.xml>`
 
@@ -82,18 +82,30 @@ SDK 업데이트를 위해 라이브러리(sphere_sdk.aar) 파일을 교체하�
 <manifest>
    ...
    <uses-permission android:name="android.permission.INTERNET"/>
+   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
    ...
 </manifest>
 ```
 
-* 권장 권한
+2. 패키지 공개 상태 설정
+
+Android 11에서는 앱이 사용자가 기기에 설치한 다른 앱을 쿼리하기 위해서는 패키지 공개 상태를 설정해야 합니다.  
+앱이 아래 조건에 모두 해당되는 경우에는 패키지 공개 상태 설정이 필요합니다.
+
+* 앱의 targetSdkVersion이 30 이상인 경우
+* Sphere 콘솔에서 "App trends"에 대한 분석을 원하는 경우
 
 `<AndroidManifest.xml>`
 
 ```xml
 <manifest>
    ...
-   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
    ...
 </manifest>
 ```

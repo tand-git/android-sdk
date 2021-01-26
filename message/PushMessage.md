@@ -2,23 +2,23 @@
 
 * [SDK 기본 연동](#SDK-기본-연동)
   * [FCM 등록 토큰 설정](#FCM-등록-토큰-설정)
+  * [푸시 메시지 서비스 등록](#푸시-메시지-서비스-등록)
+  * [앱 실행 시 인텐트 설정](#앱-실행-시-인텐트-설정)
   * [사용자 푸시 동의 설정](#사용자-푸시-동의-설정)
 
 ## SDK 기본 연동
 
 > 푸시 메시지 기능을 사용하기 위해서는 Sphere SDK 연동가이드의 기본 연동 및 FCM(Firebase Cloud Messaging) 클라이언트 앱 설정이 필수적으로 완료되어야 메시지 수신이 가능합니다.
 
-* [Android SDK 연동가이드](https://github.com/tand-git/android-sdk) : [기본 연동](https://github.com/tand-git/android-sdk#기본-연동)
+* [Sphere SDK Android 연동가이드](https://github.com/tand-git/android-sdk) : [기본 연동](https://github.com/tand-git/android-sdk#기본-연동)
 * [Android 기반 FCM(Firebase Cloud Messaging) 클라이언트 앱 설정](https://firebase.google.com/docs/cloud-messaging/android/client)
 
 ### FCM 등록 토큰 설정
 
 > FCM(Firebase Cloud Messaging)을 통해 푸시 메시지를 전송하기 위해서는 FCM 등록 토큰이 필요합니다.
 
-1. 현재 등록된 FCM 토큰 설정
-
 기존 앱 사용자들의 FCM 등록 토큰을 설정하기 위해서 다음 코드와 같이 Firebase로 부터 등록된 토큰을 가져오거나  
-만약 앱에서 FCM 토큰을 저장하고 있다면 앱에 저장된 토큰을 setFcmToken 함수를 통해 SDK에 전달합니다.
+만약 앱에서 FCM 토큰을 저장하고 있다면 앱에 저장된 토큰을 `setFcmToken`를 통해 SDK에 전달합니다.
 
 `<Java> - MyApplication.java`
 
@@ -31,23 +31,16 @@ public class MyApplication extends Application {
         SphereAnalytics.configure(this, "Your Sphere SDK App Key");
 
         // 기존 설치된 사용자를 위한 푸시 토큰 설정
-        if (!SpherePushMessage.hasFcmToken()) {
-
-            FirebaseMessaging.getInstance().getToken()
-                    .addOnCompleteListener(new OnCompleteListener<String>() {
-                        @Override
-                        public void onComplete(@NonNull Task<String> task) {
-                            if (!task.isSuccessful()) {
-                                Log.w("Firebase", "Fetching FCM registration token failed", task.getException());
-                                return;
-                            }
-
-                            // Sphere SDK 푸시 토큰 설정
-                            String token = task.getResult();
-                            SpherePushMessage.setFcmToken(token);
-                        }
-                    });
-        }
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                // Sphere SDK 푸시 토큰 설정
+                if (task.isSuccessful()) {
+                    String token = task.getResult();
+                    SpherePushMessage.setFcmToken(token);
+                }
+            }
+        });
     }
 }
 ```
@@ -62,27 +55,37 @@ class SampleApp : Application() {
         SphereAnalytics.configure(this, "Your Sphere SDK App Key")
 
         // 기존 설치된 사용자를 위한 푸시 토큰 설정
-        if (!SpherePushMessage.hasFcmToken()) {
-
-            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    Log.w("Firebase", "Fetching FCM registration token failed", task.exception)
-                    return@OnCompleteListener
-                }
-
-                // Sphere SDK 푸시 토큰 설정
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            // Sphere SDK 푸시 토큰 설정
+            if (task.isSuccessful) {
                 val token = task.result
                 SpherePushMessage.setFcmToken(token)
-            })
-        }
+            }
+        })
     }
 }
 ```
 
+### 푸시 메시지 서비스 등록
 
-2. FCM 토큰 생성 시 설정
+> 푸시 메시지 서비스 등록이 연동되지 않을 경우 앱 실행 중 푸시 메시지 전송 시 메시지가 알림창에 표시되지 않습니다.
 
-FirebaseMessagingService를 상속한 서비스를 AndroidManifest에 등록하고 onNewToken을 재정의하여 생성된 FCM 토큰을 Sphere SDK에 전달해야 합니다.
+`FirebaseMessagingService` 클래스를 상속한 푸시 메시지 서비스를 등록하고 아래 샘플 코드와 같이 `onNewToken`, `onMessageReceived` 메소드를 재정의합니다. 앱에 이미 등록된 `FirebaseMessagingService`가 있다면 기존 등록된 서비스에 `onNewToken`, `onMessageReceived` 메소드를 재정의해야 합니다.  
+만약 앱에서 타사의 푸시 메시지 SDK를 연동 중이라면 해당 SDK 내부에서 `FirebaseMessagingService`를 등록하고 있는 지 확인이 필요하며 ***중복 등록 시 정상적인 푸시 서비스가 불가능합니다***.
+
+`<AndroidManifest.xml>`
+
+```xml
+<application>
+    <service
+        android:name=".MyFirebaseMessagingService"
+        android:exported="false">
+        <intent-filter>
+            <action android:name="com.google.firebase.MESSAGING_EVENT" />
+        </intent-filter>
+    </service>
+</application>
+```
 
 `<Java> - MyFirebaseMessagingService.java`
 
@@ -92,6 +95,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String token) {
         // Sphere SDK 푸시 토큰 설정
         SpherePushMessage.setFcmToken(token);
+    }
+
+    @Override
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+        if (SpherePushMessage.isSpherePushMessage(remoteMessage.getData())) {
+            // Sphere 푸시 메시지 데이터 처리: 앱이 실행 중인 경우 알림창에 메시지 표시
+            SpherePushMessage.handleMessageReceived(remoteMessage.getData());
+
+        } else {
+            // Sphere 푸시 메시지가 아닌 경우 처리
+        }
     }
 }
 ```
@@ -104,21 +118,54 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // Sphere SDK 푸시 토큰 설정
         SpherePushMessage.setFcmToken(token)
     }
+
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        if (SpherePushMessage.isSpherePushMessage(remoteMessage.data)) {
+            // Sphere 푸시 메시지 데이터 처리: 앱이 실행 중인 경우 알림창에 메시지 표시
+            SpherePushMessage.handleMessageReceived(remoteMessage.data)
+
+        } else {
+            // Sphere 푸시 메시지가 아닌 경우 처리
+        }
+    }
 }
 ```
 
-`<AndroidManifest.xml>`
+### 앱 실행 시 인텐트 설정
 
-```xml
-<<application>
-    <service
-        android:name=".MyFirebaseMessagingService"
-        android:exported="false">
-        <intent-filter>
-            <action android:name="com.google.firebase.MESSAGING_EVENT" />
-        </intent-filter>
-    </service>
-</<application>
+> 앱 실행 시 인텐트 설정이 연동되지 않을 경우 Sphere 콘솔에서 "메시지 오픈"에 대한 통계 데이터가 부정확할 수 있습니다.
+
+사용자가 발송된 푸시 메시지를 클릭하여 실행되는 Activity에 `onNewIntent`를 재정의 하여 아래 샘플 코드와 같이 `Intent`를 Sphere SDK에 전달해야 합니다.
+
+앱 실행 시 시작되는 Activity
+1. AndroidManifest.xml에 카테고리가 `android.intent.category.LAUNCHER`인 Activity
+2. 앱 링크를 사용하고 있다면 앱 링크를 통해 실행되는 Activity
+
+`<Java> - MyActivity.java`
+
+```java
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        // 앱 실행 시 Sphere 푸시 메시지 데이터 처리
+        SpherePushMessage.handleNewIntent(intent);
+    }
+}
+```
+
+`<Kotlin> - MyActivity.kt`
+
+```kt
+class MainActivity : AppCompatActivity() {
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        // 앱 실행 시 Sphere 푸시 메시지 데이터 처리
+        SpherePushMessage.handleNewIntent(intent)
+    }
+}
 ```
 
 ### 사용자 푸시 동의 설정

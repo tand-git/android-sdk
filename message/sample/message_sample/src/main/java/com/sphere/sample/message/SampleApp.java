@@ -1,7 +1,6 @@
 package com.sphere.sample.message;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -21,22 +20,15 @@ public class SampleApp extends Application {
         SphereAnalytics.configure(this, "Your Sphere SDK App Key");
 
         // 기존 설치된 사용자를 위한 푸시 토큰 설정
-        if (!SpherePushMessage.hasFcmToken()) {
-
-            FirebaseMessaging.getInstance().getToken()
-                    .addOnCompleteListener(new OnCompleteListener<String>() {
-                        @Override
-                        public void onComplete(@NonNull Task<String> task) {
-                            if (!task.isSuccessful()) {
-                                Log.w("Firebase", "Fetching FCM registration token failed", task.getException());
-                                return;
-                            }
-
-                            // Sphere SDK 푸시 토큰 설정
-                            String token = task.getResult();
-                            SpherePushMessage.setFcmToken(token);
-                        }
-                    });
-        }
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                // Sphere SDK 푸시 토큰 설정
+                if (task.isSuccessful()) {
+                    String token = task.getResult();
+                    SpherePushMessage.setFcmToken(token);
+                }
+            }
+        });
     }
 }

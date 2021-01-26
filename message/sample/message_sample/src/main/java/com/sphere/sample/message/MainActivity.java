@@ -2,6 +2,7 @@ package com.sphere.sample.message;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -9,6 +10,14 @@ import android.widget.Switch;
 import com.sphere.message.SpherePushMessage;
 
 public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        // 앱 실행 시 Sphere 푸시 메시지 데이터 처리
+        SpherePushMessage.handleNewIntent(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

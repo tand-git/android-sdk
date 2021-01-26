@@ -1,5 +1,6 @@
 package com.sphere.sample.message.kt
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Switch
@@ -7,6 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.sphere.message.SpherePushMessage
 
 class MainActivity : AppCompatActivity() {
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        // 앱 실행 시 Sphere 푸시 메시지 데이터 처리
+        SpherePushMessage.handleNewIntent(intent)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
