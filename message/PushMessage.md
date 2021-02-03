@@ -13,6 +13,11 @@
 * [Sphere SDK Android 연동가이드](https://github.com/tand-git/android-sdk) : [기본 연동](https://github.com/tand-git/android-sdk#기본-연동)
 * [Android 기반 FCM(Firebase Cloud Messaging) 클라이언트 앱 설정](https://firebase.google.com/docs/cloud-messaging/android/client)
 
+SDK 기본 연동 및 푸시 메시지 연동이 모두 완료된 샘플 프로젝트는 아래 샘플 소스 참조 사이트에서 확인이 가능합니다.  
+샘플 프로젝트를 통해 단말에서 메시지 전송 테스트를 하기 위해서는 Firebase 콘솔에서 샘플앱 프로젝트를 생성 후 발급받은 `google-services.json` 파일로 교체해야 테스트가 가능합니다.
+
+* 샘플 소스: [https://github.com/tand-git/android-sdk/tree/master/message/sample](https://github.com/tand-git/android-sdk/tree/master/message/sample)
+
 ### FCM 등록 토큰 설정
 
 > FCM(Firebase Cloud Messaging)을 통해 푸시 메시지를 전송하기 위해서는 FCM 등록 토큰이 필요합니다.
