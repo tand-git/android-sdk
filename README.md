@@ -89,13 +89,11 @@ SDK 업데이트를 위해 라이브러리(sphere_sdk.aar) 파일을 교체하�
 
 2. 패키지 공개 상태 설정
 
-> Sphere 콘솔에서 “App trends” (앱 설치 패턴 분석)에 대한 서비스 사용을 원하는 경우 연동이 필요합니다.
-
 Android 11에서는 앱이 사용자가 기기에 설치한 다른 앱을 쿼리하기 위해서는 패키지 공개 상태를 설정해야 합니다.  
 앱이 아래 조건에 모두 해당되는 경우에는 패키지 공개 상태 설정이 필요합니다.
 
 * 앱의 targetSdkVersion이 30 이상인 경우
-* Sphere 콘솔에서 "App trends"에 대한 분석을 원하는 경우
+* Sphere 콘솔에서 “App trends” (앱 설치 패턴 분석)에 대한 서비스 사용을 원하는 경우
 
 `<AndroidManifest.xml>`
 
