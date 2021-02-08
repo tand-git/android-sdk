@@ -55,20 +55,6 @@ SphereInAppMessage.setOpenLinkListener(SphereMessageOpenLinkListener { activity,
 })
 ```
 
-1. 앱링크 또는 외부 웹브라우저로 링크 이동 시
-
-기본적으로 메시지의 이미지 링크 연결 시 SDK 내부에서 자동으로 `Intent.ACTION_VIEW` 인텐트 액션 및 해당 url과 함께 인텐트로 액티비티를 실행하게 됩니다.  
-기본적으로 메시지의 이미지 링크 연결 시 설정한 이미지 링크 url로 인텐트를 통해  `Intent.ACTION_VIEW` 인텐트 액션 및 해당 url과 함께 인텐트로 액티비티를 실행하게 됩니다.  
-
-메시지의 이미지 링크가 설정된 경우 SDK 내부에서 자동으로 `Intent.ACTION_VIEW` 인텐트 액션 및 해당 url로 액티비티를 실행하게 됩니다.  
-
-만약 외부 웹브라우저로 이미지 링크를 연결할 경우에는 AndroidManifest 파일에 
-
-2. 앱 내 특정 페이지로 이동
-
-
-
-
 ## 추가 설정
 
 ### Message Display Listener 설정
