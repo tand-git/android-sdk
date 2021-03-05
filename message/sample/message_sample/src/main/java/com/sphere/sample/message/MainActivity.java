@@ -11,12 +11,21 @@ import com.sphere.message.SpherePushMessage;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String KEY_YOUR_PUSH_LINK = "key_your_push_link";
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
         // 앱 실행 시 Sphere 푸시 메시지 데이터 처리
         SpherePushMessage.handleNewIntent(intent);
+
+        // 푸시메시지 커스텀 데이터 전달 처리
+        Bundle extras = intent.getExtras();
+        if (extras != null && extras.containsKey(KEY_YOUR_PUSH_LINK)) {
+            String link = extras.getString(KEY_YOUR_PUSH_LINK);
+            // 링크 페이지로 이동
+        }
     }
 
     @Override
@@ -47,5 +56,12 @@ public class MainActivity extends AppCompatActivity {
                 SpherePushMessage.agreePushMessageAtNight(isChecked);
             }
         });
+
+        // 푸시메시지 커스텀 데이터 전달 처리
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && extras.containsKey(KEY_YOUR_PUSH_LINK)) {
+            String link = extras.getString(KEY_YOUR_PUSH_LINK);
+            // 링크 페이지로 이동
+        }
     }
 }

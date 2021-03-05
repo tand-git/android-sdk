@@ -5,6 +5,7 @@
   * [푸시 메시지 서비스 등록](#푸시-메시지-서비스-등록)
   * [앱 실행 시 인텐트 설정](#앱-실행-시-인텐트-설정)
   * [사용자 푸시 동의 설정](#사용자-푸시-동의-설정)
+* [푸시메시지 데이터 전달](#푸시메시지-데이터-전달)
 
 ## SDK 기본 연동
 
@@ -199,4 +200,69 @@ SpherePushMessage.agreePushMessageForInformation(true)
 SpherePushMessage.agreePushMessageForAdvertisement(true)
 // 야간 푸시 발송 동의 설정 (허용:true, 거부:false)
 SpherePushMessage.agreePushMessageAtNight(true)
+```
+
+## 푸시메시지 데이터 전달
+
+> 푸시 메시지 전송 시 데이터(키/값)를 함께 전달하기 위해서는 [키-값 이용 가이드](https://www.notion.so/Key-value-c65b4843b7cd4b6e80e91ad994af52b2)를 참고하여 Sphere 콘솔에서 푸시메시지 입력 시 키/값을 설정해야 합니다.
+
+데이터(키/값)와 함께 푸시메시지를 전송하면 메시지 클릭 시 실행되는 `Activity`로 데이터가 전달됩니다.  
+만약 링크를 통해 앱 내 특정 페이지로 이동할 경우 링크에 해당하는 키/값이 `Activity`로 전달되면 해당 링크를 확인하여 링크 페이지로 이동하는 코드를 구현해야 합니다.
+
+`<Java>`
+
+```java
+public class MainActivity extends AppCompatActivity {
+
+    private static final String KEY_YOUR_PUSH_LINK = "key_your_push_link";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // 푸시메시지 커스텀 데이터 전달 처리
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && extras.containsKey(KEY_YOUR_PUSH_LINK)) {
+            String link = extras.getString(KEY_YOUR_PUSH_LINK);
+            // 링크 페이지로 이동
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        // 푸시메시지 커스텀 데이터 전달 처리
+        Bundle extras = intent.getExtras();
+        if (extras != null && extras.containsKey(KEY_YOUR_PUSH_LINK)) {
+            String link = extras.getString(KEY_YOUR_PUSH_LINK);
+            // 링크 페이지로 이동
+        }
+    }
+}
+```
+
+`<Kotlin>`
+
+```kt
+class MainActivity : AppCompatActivity() {
+    companion object {
+        private const val KEY_YOUR_PUSH_LINK = "key_your_push_link"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        // 푸시메시지 커스텀 데이터 전달 처리
+        val extras = intent!!.extras
+        if (extras != null && extras.containsKey(KEY_YOUR_PUSH_LINK)) {
+            val link = extras.getString(KEY_YOUR_PUSH_LINK)
+            // 링크 페이지로 이동
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        // 푸시메시지 커스텀 데이터 전달 처리
+        val extras = intent!!.extras
+        if (extras != null && extras.containsKey(KEY_YOUR_PUSH_LINK)) {
+            val link = extras.getString(KEY_YOUR_PUSH_LINK)
+            // 링크 페이지로 이동
+        }
+    }
+
+}
 ```
