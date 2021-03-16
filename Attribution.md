@@ -1,8 +1,14 @@
+# Attribution 가이드
+
+* [Attribution ID 설정 연동 가이드](#Attribution-ID-설정-연동-가이드)
+* [구글 플레이 Install Referrer 설정](#구글-플레이-Install-Referrer-설정)
+
 ## Attribution ID 설정 연동 가이드
 
 Attribution ID 설정을 위해 Sphere SDK 초기화 이후 Attribution ID 설정을 위한 콜백(`VendorCallback`)을 등록하고 `updateAttributionId` 콜백 구현부에서 현재 연동된 Attribution ID를 설정합니다.
 
 * Adjust Android SDK 가이드: [Adjust Device Identifier](https://github.com/adjust/android_sdk#adjust-device-identifier)
+* AppsFlyer Android SDK 가이드: [Get AppsFlyer ID](https://support.appsflyer.com/hc/en-us/articles/207032126#additional-apis-get-appsflyer-id)
 
 `<Java> - MyApplication.java`
 
