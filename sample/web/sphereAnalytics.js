@@ -1,4 +1,4 @@
-// Sphere WebView Javascript API v1.1.0
+// Sphere WebView Javascript API v1.2.0
 var SphereAnalytics = {
     androidInterfaceName:"SphereJsInterface",
     iosInterfaceName:"sphere",
@@ -165,6 +165,35 @@ var SphereAnalytics = {
             this._consoleError(error);
         }
     },
+    setUserPropertyLong:function(name, value) {
+        try {
+            if (SphereAnalytics._isWebView()) {
+                var message = {
+                    commandType: "analytics",
+                    command: 'setUserPropertyLong',
+                    name: name,
+                    value: value
+                };
+                SphereAnalytics._postMessage(message);
+            }
+        } catch(error) {
+            this._consoleError(error);
+        }
+    },
+    removeUserProperty:function(name) {
+        try {
+            if (SphereAnalytics._isWebView()) {
+                var message = {
+                    commandType: "analytics",
+                    command: 'removeUserProperty',
+                    name: name
+                };
+                SphereAnalytics._postMessage(message);
+            }
+        } catch(error) {
+            this._consoleError(error);
+        }
+    },
     resetUserProperties:function() {
         try {
             if (this.sphereAndroidInterface) {
@@ -217,7 +246,9 @@ var SphereAnalytics = {
     // private functions
     _postMessage:function(message) {
         if (this.sphereAndroidInterface) {
-            this.sphereAndroidInterface.postMessage(JSON.stringify(message));
+            if (this.sphereAndroidInterface.postMessage) {
+                this.sphereAndroidInterface.postMessage(JSON.stringify(message));
+            }
         } else if (this.sphereIOSInterface) {
             this.sphereIOSInterface.postMessage(message);
         }

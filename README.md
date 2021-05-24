@@ -379,8 +379,9 @@ if (isLogIn) { // 로그인: ON 상태
 
 ### 커스텀 사용자 속성 설정
 
-미리 정의되지 않은 사용자 속성 정보를 사용 시 `setUserProperty` 함수를 이용하여 커스텀 사용자 속성을 설정할 수 있습니다.  
-사용자 속성은 속성명과 속성값의 쌍으로 구성되며 속성값을 `null`로 설정 시 해당 속성은 초기화 됩니다.
+미리 정의되지 않은 사용자 속성 정보를 사용 시 `setUserProperty`(문자형) 또는 `setUserPropertyLong`(정수형) 함수를 이용하여 커스텀 사용자 속성을 설정할 수 있습니다.  
+사용자 속성은 속성명과 속성값의 쌍으로 구성되며 사용자 속성 정보 초기화 시 `removeUserProperty` 함수를 이용하여 초기화가 가능합니다.
+또한 문자형 사용자 속성의 경우 속성값을 `null`로 설정 시 해당 속성은 초기화 됩니다.
 
 사용자 속성에 관한 규칙은 다음과 같습니다.
 
@@ -391,25 +392,29 @@ if (isLogIn) { // 로그인: ON 상태
     * "sap"으로 시작되는 속성명은 사전 정의된 속성명으로 사용 불가
 
 2. 사용자 속성값
-    * 최대 100자
-    * 지원 타입 : String
+    * 문자형 : 최대 100자
+    * 정수형 : long 타입
 
 `<Java>`
 
 ```java
 // 커스텀 사용자 속성 설정
-SphereAnalytics.setUserProperty("user_property_name", "user_property_value");
+SphereAnalytics.setUserProperty("user_property_name_1", "user_property_value");
+SphereAnalytics.setUserPropertyLong("user_property_name_2", 12345);
 // 커스텀 사용자 속성 초기화
-SphereAnalytics.setUserProperty("user_property_name", null);
+SphereAnalytics.removeUserProperty("user_property_name_1");
+SphereAnalytics.removeUserProperty("user_property_name_2");
 ```
 
 `<Kotlin>`
 
 ```kt
 // 커스텀 사용자 속성 설정
-SphereAnalytics.setUserProperty("user_property_name", "user_property_value")
+SphereAnalytics.setUserProperty("user_property_name_1", "user_property_value")
+SphereAnalytics.setUserPropertyLong("user_property_name_2", 12345)
 // 커스텀 사용자 속성 초기화
-SphereAnalytics.setUserProperty("user_property_name", null)
+SphereAnalytics.removeUserProperty("user_property_name_1")
+SphereAnalytics.removeUserProperty("user_property_name_2")
 ```
 
 ## 추가 설정
