@@ -5,63 +5,45 @@ var SphereAnalytics = {
 
     logEvent:function(name, params) {
         try {
-            if (this.sphereAndroidInterface) {
-                this.sphereAndroidInterface.logEvent(name, JSON.stringify(params));
-            } else if (this.sphereIOSInterface) {
-                var message = {
-                    command: "logEvent",
-                    name: name,
-                    parameters: params
-                };
-                this.sphereIOSInterface.postMessage(message);
-            } else {
-                this._consoleLog("No native APIs found.");
-            }
+            let message = {
+                command: "logEvent",
+                name: name,
+                parameters: params
+            };
+            this._postMessage(message);
         } catch(error) {
             this._consoleError(error);
         }
     },
     setUserId:function(userId) {
         try {
-            if (this.sphereAndroidInterface) {
-                this.sphereAndroidInterface.setUserId(userId);
-            } else if (this.sphereIOSInterface) {
-                var message = {
-                    command: "setUserId",
-                    userId: userId
-                };
-                this.sphereIOSInterface.postMessage(message);
-            }
+            let message = {
+                command: "setUserId",
+                userId: userId
+            };
+            this._postMessage(message);
         } catch(error) {
             this._consoleError(error);
         }
     },
     setGrade:function(grade) {
         try {
-            if (this.sphereAndroidInterface) {
-                this.sphereAndroidInterface.setGrade(grade);
-            } else if (this.sphereIOSInterface) {
-                var message = {
-                    command: "setGrade",
-                    grade: grade
-                };
-                this.sphereIOSInterface.postMessage(message);
-            }
+            let message = {
+                command: "setGrade",
+                grade: grade
+            };
+            this._postMessage(message);
         } catch(error) {
             this._consoleError(error);
         }
     },
     setGender:function(gender) {
         try {
-            if (this.sphereAndroidInterface) {
-                this.sphereAndroidInterface.setGender(gender);
-            } else if (this.sphereIOSInterface) {
-                var message = {
-                    command: "setGender",
-                    gender: gender
-                };
-                this.sphereIOSInterface.postMessage(message);
-            }
+            let message = {
+                command: "setGender",
+                gender: gender
+            };
+            this._postMessage(message);
         } catch(error) {
             this._consoleError(error);
         }
@@ -72,45 +54,33 @@ var SphereAnalytics = {
                 console.log("setBirthYear: Invalid parameter.");
                 return;
             }
-            if (this.sphereAndroidInterface) {
-                this.sphereAndroidInterface.setBirthYear(year);
-            } else if (this.sphereIOSInterface) {
-                var message = {
-                    command: "setBirthYear",
-                    year: year
-                };
-                this.sphereIOSInterface.postMessage(message);
-            }
+            let message = {
+                command: "setBirthYear",
+                year: year
+            };
+            this._postMessage(message);
         } catch(error) {
             this._consoleError(error);
         }
     },
     setPhoneNumber:function(number) {
         try {
-            if (this.sphereAndroidInterface) {
-                this.sphereAndroidInterface.setPhoneNumber(number);
-            } else if (this.sphereIOSInterface) {
-                var message = {
-                    command: "setPhoneNumber",
-                    number: number
-                };
-                this.sphereIOSInterface.postMessage(message);
-            }
+            let message = {
+                command: "setPhoneNumber",
+                number: number
+            };
+            this._postMessage(message);
         } catch(error) {
             this._consoleError(error);
         }
     },
     setEmail:function(email) {
         try {
-            if (this.sphereAndroidInterface) {
-                this.sphereAndroidInterface.setEmail(email);
-            } else if (this.sphereIOSInterface) {
-                var message = {
-                    command: "setEmail",
-                    email: email
-                };
-                this.sphereIOSInterface.postMessage(message);
-            }
+            let message = {
+                command: "setEmail",
+                email: email
+            };
+            this._postMessage(message);
         } catch(error) {
             this._consoleError(error);
         }
@@ -122,45 +92,33 @@ var SphereAnalytics = {
                 console.log("setRemainingPoint: Invalid parameter.");
                 return;
             }
-            if (this.sphereAndroidInterface) {
-                this.sphereAndroidInterface.setRemainingPoint(point);
-            } else if (this.sphereIOSInterface) {
-                var message = {
-                    command: "setRemainingPoint",
-                    point: point
-                };
-                this.sphereIOSInterface.postMessage(message);
-            }
+            let message = {
+                command: "setRemainingPoint",
+                point: point
+            };
+            this._postMessage(message);
         } catch(error) {
             this._consoleError(error);
         }
     },
-    resetPoints:function() {
+    removePoints:function() {
         try {
-            if (this.sphereAndroidInterface) {
-                this.sphereAndroidInterface.resetPoints();
-            } else if (this.sphereIOSInterface) {
-                var message = {
-                    command: "resetPoints"
-                };
-                this.sphereIOSInterface.postMessage(message);
-            }
+            let message = {
+                command: "resetPoints"
+            };
+            this._postMessage(message);
         } catch(error) {
             this._consoleError(error);
         }
     },
     setUserProperty:function(name, value) {
         try {
-            if (this.sphereAndroidInterface) {
-                this.sphereAndroidInterface.setUserProperty(name, value);
-            } else if (this.sphereIOSInterface) {
-                var message = {
-                  command: 'setUserProperty',
-                  name: name,
-                  value: value
-                };
-                this.sphereIOSInterface.postMessage(message);
-            }
+            let message = {
+                command: 'setUserProperty',
+                name: name,
+                value: value
+              };
+              this._postMessage(message);
         } catch(error) {
             this._consoleError(error);
         }
@@ -168,7 +126,7 @@ var SphereAnalytics = {
     setUserPropertyLong:function(name, value) {
         try {
             if (SphereAnalytics._isWebView()) {
-                var message = {
+                let message = {
                     commandType: "analytics",
                     command: 'setUserPropertyLong',
                     name: name,
@@ -183,7 +141,7 @@ var SphereAnalytics = {
     removeUserProperty:function(name) {
         try {
             if (SphereAnalytics._isWebView()) {
-                var message = {
+                let message = {
                     commandType: "analytics",
                     command: 'removeUserProperty',
                     name: name
@@ -196,28 +154,20 @@ var SphereAnalytics = {
     },
     resetUserProperties:function() {
         try {
-            if (this.sphereAndroidInterface) {
-                this.sphereAndroidInterface.resetUserProperties();
-            } else if (this.sphereIOSInterface) {
-                var message = {
-                    command: "resetUserProperties"
-                };
-                this.sphereIOSInterface.postMessage(message);
-            }
+            let message = {
+                command: "resetUserProperties"
+            };
+            this._postMessage(message);
         } catch(error) {
             this._consoleError(error);
         }
     },
     requestUpload:function() {
         try {
-            if (this.sphereAndroidInterface) {
-                this.sphereAndroidInterface.requestUpload();
-            } else if (this.sphereIOSInterface) {
-                var message = {
-                    command: "requestUpload"
-                };
-                this.sphereIOSInterface.postMessage(message);
-            }
+            let message = {
+                command: "requestUpload"
+            };
+            this._postMessage(message);
         } catch(error) {
             this._consoleError(error);
         }
@@ -225,16 +175,11 @@ var SphereAnalytics = {
     enableLog:function(enable) {
         try {
             this.isLogEnabled = enable;
-
-            if (this.sphereAndroidInterface) {
-                this.sphereAndroidInterface.enableLog(enable);
-            } else if (this.sphereIOSInterface) {
-                var message = {
-                    command: "enableLog",
-                    enable: enable
-                };
-                this.sphereIOSInterface.postMessage(message);
-            }
+            let message = {
+                command: "enableLog",
+                enable: enable
+            };
+            this._postMessage(message);
         } catch(error) {
             this._consoleError(error);
         }
@@ -245,12 +190,16 @@ var SphereAnalytics = {
 
     // private functions
     _postMessage:function(message) {
-        if (this.sphereAndroidInterface) {
-            if (this.sphereAndroidInterface.postMessage) {
-                this.sphereAndroidInterface.postMessage(JSON.stringify(message));
+        if(this._isWebView){
+            if (this.sphereAndroidInterface) {
+                if (this.sphereAndroidInterface.postMessage) {
+                    this.sphereAndroidInterface.postMessage(JSON.stringify(message));
+                }
+            } else if (this.sphereIOSInterface) {
+                this.sphereIOSInterface.postMessage(message);
             }
-        } else if (this.sphereIOSInterface) {
-            this.sphereIOSInterface.postMessage(message);
+        }else{
+            SphereAnalytics._consoleError('required for (Android | iOS) SDK');
         }
     },
     _isWebView:function() {
@@ -287,7 +236,7 @@ var SpherePushMessage = {
     setFcmToken:function(token) {
         try {
             if (SphereAnalytics._isWebView()) {
-                var message = {
+                let message = {
                     commandType: "pushMessage",
                     command: "setFcmToken",
                     token: token
@@ -303,7 +252,7 @@ var SpherePushMessage = {
     _agreePushMessage:function(command, agree) {
         try {
             if (SphereAnalytics._isWebView()) {
-                var message = {
+                let message = {
                     commandType: "pushMessage",
                     command: command,
                     agree: agree
