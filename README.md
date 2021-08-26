@@ -17,7 +17,8 @@
 * [사용자 속성 연동하기](#사용자-속성-연동하기)
   * [사용자 아이디 설정](#사용자-아이디-설정)
   * [사용자 정보 설정](#사용자-정보-설정)
-  * [커스텀 사용자 속성 설정](#커스텀-사용자-속성-설정)
+  * [커스텀 사용자 속성 설정](#커스텀-사용자-속성-설정)  
+  * [커스텀 사용자 포인트 설정](#커스텀-사용자-포인트-설정)
 * [추가 설정](#추가-설정)
   * [로그 출력](#로그-출력)
   * [이벤트 즉시 전송](#이벤트-즉시-전송)
@@ -312,7 +313,7 @@ if (isLogIn) { // 로그인: ON 상태
 `<Java>`
 
 ```java
-if (isLogIn) { // 로그인: ON 상태
+if (isLogIn) { // 로그인: ON 상태 및 사용자 정보 변경 시 설정
 
     // 사용자 아이디 설정 - 로그인: ON 상태
     SphereAnalytics.setUserId("[USER ID]");
@@ -346,7 +347,7 @@ if (isLogIn) { // 로그인: ON 상태
 `<Kotlin>`
 
 ```kt
-if (isLogIn) { // 로그인: ON 상태
+if (isLogIn) { // // 로그인: ON 상태 및 사용자 정보 변경 시 설정
 
     // 사용자 아이디 설정
     SphereAnalytics.setUserId("[USER ID]")
@@ -416,6 +417,33 @@ SphereAnalytics.setUserPropertyLong("user_property_name_2", 12345)
 SphereAnalytics.removeUserProperty("user_property_name_1")
 SphereAnalytics.removeUserProperty("user_property_name_2")
 ```
+
+
+### 커스텀 사용자 포인트 설정
+
+미리 정의되지 않은 사용자 속성 정보를 사용 시 `setRemainingPoint`(보유 포인트) 함수를 이용하여 커스텀 사용자 포인트를 설정할 수 있습니다.  
+사용자 속성은 속성명과 속성값의 쌍으로 구성되며 사용자 속성 정보 초기화 시 `removePoints` 함수를 이용하여 초기화가 가능합니다.
+또한 사용자의 전체 포인트를 초기화하는 경우 `resetPoints`함수를 이용하여 초기화 가능합니다.
+
+1. 사용자 속성값
+    * 최대 100자
+    * 지원 타입 : String
+
+2. 사용자 속성명
+    * 최대 40자
+    * 영문 대소문자, 숫자, 특수문자 중 ‘_’ 만 허용
+    * 첫 글자는 영문 대소문자만 허용
+    * setRemainingPoint(포인트) 함수사용 시 "point"로 사전 정의된 포인트명임으로 사용 불가
+
+```js
+// 커스텀 사용자 속성 설정
+SphereAnalytics.setRemainingPoint( 1234567, "user_point_name");
+// 커스텀 사용자 속성 초기화
+SphereAnalytics.removePoints("user_point_name");
+// 사용자 포인트 전체 초기화(기본포인트 + 커스텀포인트)
+SphereAnalytics.resetPoints();
+```
+
 
 ## 추가 설정
 
