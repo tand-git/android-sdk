@@ -26,9 +26,12 @@ public class MyApplication extends Application implements SphereAttribution.Vend
 
     @Override
     public void updateAttributionId() {
-        // Adjust ID 설정
-        String adjustId = Adjust.getAdid();
-        SphereAttribution.setAttributionId(SphereAttribution.VENDOR_ADJUST, adjustId);
+        // Attribution ID 설정
+        String attributionId = Adjust.getAdid(); // 어트리뷰션 ID
+        // 어트리뷰션 업체명 입력가이드
+        // Adjust : SphereAttribution.VENDOR_ADJUST
+        // kochava : 'kochava'
+        SphereAttribution.setAttributionId(SphereAttribution.VENDOR_ADJUST, attributionId);
     }
 }
 ```
@@ -46,9 +49,12 @@ class MyApplication : Application(), SphereAttribution.VendorCallback {
     }
 
     override fun updateAttributionId() {
-        // Adjust ID 설정
-        val adjustId = Adjust.getAdid()
-        SphereAttribution.setAttributionId(SphereAttribution.VENDOR_ADJUST, adjustId)
+        // attributionId ID 설정
+        val attributionId = Adjust.getAdid() // 어트리뷰션 ID
+        // 어트리뷰션 업체명 입력가이드
+        // Adjust : SphereAttribution.VENDOR_ADJUST
+        // kochava : 'kochava'
+        SphereAttribution.setAttributionId(SphereAttribution.VENDOR_ADJUST, attributionId)
     }
 }
 ```
