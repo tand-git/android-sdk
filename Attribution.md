@@ -9,6 +9,7 @@ Attribution ID 설정을 위해 Sphere SDK 초기화 이후 Attribution ID 설�
 
 * Adjust Android SDK 가이드: [Adjust Device Identifier](https://github.com/adjust/android_sdk#adjust-device-identifier)
 * AppsFlyer Android SDK 가이드: [Get AppsFlyer ID](https://support.appsflyer.com/hc/en-us/articles/207032126#additional-apis-get-appsflyer-id)
+* kochava Android SDK 가이드: [Get Device ID](https://support.kochava.com/sdk-integration/android-sdk-integration/android-using-the-sdk/?scrollto=marker_11)
 
 `<Java> - MyApplication.java`
 
@@ -26,8 +27,9 @@ public class MyApplication extends Application implements SphereAttribution.Vend
 
     @Override
     public void updateAttributionId() {
-        // Attribution ID 설정
-        String attributionId = Adjust.getAdid(); // 어트리뷰션 ID
+        // 기기에 할당된 ID값 설정 (링크된 가이드 참조하여 작성)
+        String attributionId = "업체별 ID값 입력"; 
+
         // 어트리뷰션 업체명 입력가이드
         // Adjust : SphereAttribution.VENDOR_ADJUST
         // kochava : 'kochava'
@@ -49,8 +51,9 @@ class MyApplication : Application(), SphereAttribution.VendorCallback {
     }
 
     override fun updateAttributionId() {
-        // attributionId ID 설정
-        val attributionId = Adjust.getAdid() // 어트리뷰션 ID
+        // 기기에 할당된 ID값 설정 (링크된 가이드 참조하여 작성)
+        val attributionId = "업체별 ID값 입력" 
+        
         // 어트리뷰션 업체명 입력가이드
         // Adjust : SphereAttribution.VENDOR_ADJUST
         // kochava : 'kochava'
