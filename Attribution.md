@@ -27,7 +27,7 @@ public class MyApplication extends Application implements SphereAttribution.Vend
 
     @Override
     public void updateAttributionId() {
-        // 기기에 할당된 ID값 설정 (링크된 가이드 참조하여 작성)
+        // 기기에 할당된 ID값 설정 (위 링크된 가이드 참조하여 작성)
         String attributionId = "업체별 ID값 입력"; 
 
         // 어트리뷰션 업체명 입력가이드
@@ -51,9 +51,9 @@ class MyApplication : Application(), SphereAttribution.VendorCallback {
     }
 
     override fun updateAttributionId() {
-        // 기기에 할당된 ID값 설정 (링크된 가이드 참조하여 작성)
+        // 기기에 할당된 ID값 설정 (위 링크된 가이드 참조하여 작성)
         val attributionId = "업체별 ID값 입력" 
-        
+
         // 어트리뷰션 업체명 입력가이드
         // Adjust : SphereAttribution.VENDOR_ADJUST
         // kochava : 'kochava'
