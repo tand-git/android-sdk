@@ -24,6 +24,7 @@
   * [이벤트 즉시 전송](#이벤트-즉시-전송)
   * [이벤트 수집 비활성화](#이벤트-수집-비활성화)
   * [Sphere ID 확인](#Sphere-ID-확인)
+* [PushMessage 연동](#pushmessage-연동)
 
 ## 기본 연동
 
@@ -518,3 +519,7 @@ Log.v("Sphere", "Sphere ID: " + sphereId);
 val sphereId = SphereAnalytics.getSphereId(context)
 Log.v("Sphere", "Sphere ID: $sphereId")
 ```
+
+### PushMessage 연동
+>[Android Sphere Push Message 연동 가이드](https://github.com/tand-git/android-sdk/blob/master/message/PushMessage.md)
+
