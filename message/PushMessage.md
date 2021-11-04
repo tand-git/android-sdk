@@ -106,6 +106,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         if (SpherePushMessage.isSpherePushMessage(remoteMessage.getData())) {
+            // 상단바 small아이콘 커스텀 사용 시
+            // ex)  remoteMessage.getData().put("customIcon", Integer.toString(R.drawable.ic_launcher_foreground));
+            // ex)  remoteMessage.getData().put("customIcon", Integer.toString(R.mipmap.ic_launcher_foreground));
+            // 상단 이름 색 커스텀 사용 시
+            // ex) remoteMessage.getData().put("customColor", ContextCompat.getColor(this, R.color.teal_800)+"");
+
             // Sphere 푸시 메시지 데이터 처리: 앱이 실행 중인 경우 알림창에 메시지 표시
             SpherePushMessage.handleMessageReceived(remoteMessage.getData());
 
