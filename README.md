@@ -25,6 +25,7 @@
   * [이벤트 수집 비활성화](#이벤트-수집-비활성화)
   * [Sphere ID 확인](#Sphere-ID-확인)
 * [PushMessage 연동](#pushmessage-연동)
+* [인앱메세지 설정](#인앱메세지-설정)
 
 ## 기본 연동
 
@@ -522,4 +523,8 @@ Log.v("Sphere", "Sphere ID: $sphereId")
 
 ### PushMessage 연동
 >[Android Sphere Push Message 연동 가이드](https://github.com/tand-git/android-sdk/blob/master/message/PushMessage.md)
+
+### 인앱메세지 설정
+
+인앱메세지는 WebSDK에서 설정으로 사용이 가능합니다.[WebSDK 인앱메세지 설정](https://github.com/tand-git/web-sdk#웹메세지-설정)
 
