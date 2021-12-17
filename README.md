@@ -11,6 +11,7 @@
   * [SDK 초기화하기](#sdk-초기화하기)
   * [프로세스 강제 종료 시 추가 설정](#프로세스-강제-종료-시-추가-설정)
 * [웹뷰 연동](#웹뷰-연동)
+  * [웹뷰 기능 활성화](#웹뷰-기능-활성화)
   * [웹뷰 자바스크립트 인터페이스 핸들러 등록](#웹뷰-자바스크립트-인터페이스-핸들러-등록)
   * [자바스크립트 API](#자바스크립트-API)
 * [이벤트 연동하기](#이벤트-연동하기)
@@ -184,6 +185,24 @@ android.os.Process.killProcess(android.os.Process.myPid());
 웹뷰를 이용한 웹앱의 경우 이벤트를 수집하기 위해서는 자바스크립트 인터페이스 핸들러를 통해 네이티브 API를 호출해야 합니다.  
 [샘플 소스](sample)를 참조하면 웹뷰를 통해 연동된 전체 샘플 소스를 확인할 수 있습니다.
 
+### 웹뷰 기능 활성화
+`<Java>`
+
+```java
+    // mWebView는 해당 소스의 webView로 대체하여 사용
+    mWebView.getSettings().setDomStorageEnabled(true); //storage 활성화
+    mWebView.getSettings().setJavaScriptEnabled(true); //javascript 활성화
+```
+
+`<Kotlin>`
+
+```kt
+    // mWebView는 해당 소스의 webView로 대체하여 사용
+    mWebView!!.settings.domStorageEnabled = true //storage 활성화
+    mWebView!!.settings.javaScriptEnabled = true //javascript 활성화
+```
+
+
 ### 웹뷰 자바스크립트 인터페이스 핸들러 등록
 
 웹뷰에 스크립트 메세지 핸들러를 등록하여 웹에서 호출하는 Sphere 자바스크립트 인터페이스를 Sphere 네이티브 인터페이스로 연결합니다.  
@@ -211,6 +230,8 @@ webView.addJavascriptInterface(SphereJsInterface(), "SphereJsInterface")
 ## 이벤트 연동하기
 
 > 이벤트는 가장 기본이 되는 수집 정보이며 이벤트는 이벤트명과 파라미터들로 구성이 됩니다.
+
+> 이벤트 연동 검증 방법 : [링크](https://worried-raccoon-858.notion.site/9c378285aef24cf4b3d482193c04a4b9)
 
 SDK가 초기화 되었다면 `logEvent` 함수를 이용하여 이벤트를 연동할 수 있으며, 한 이벤트는 최대 25개의 파라미터를 설정할 수 있습니다.
 파라미터는 파라미터명과 파라미터값의 쌍으로 구성되며 `ParamBuilder` 클래스를 통해 설정이 가능합니다.
@@ -386,6 +407,7 @@ if (isLogIn) { // // 로그인: ON 상태 및 사용자 정보 변경 시 설정
 사용자 속성은 속성명과 속성값의 쌍으로 구성되며 사용자 속성 정보 초기화 시 `removeUserProperty` 함수를 이용하여 초기화가 가능합니다.
 또한 문자형 사용자 속성의 경우 속성값을 `null`로 설정 시 해당 속성은 초기화 됩니다.
 
+(단, 개인정보는 전달하면 안됩니다. ex: 생년월일, 전화번호, e-mail 등)
 사용자 속성에 관한 규칙은 다음과 같습니다.
 
 1. 사용자 속성명
