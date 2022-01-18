@@ -13,7 +13,7 @@
 * [웹뷰 연동](#웹뷰-연동)
   * [웹뷰 기능 활성화](#웹뷰-기능-활성화)
   * [웹뷰 자바스크립트 인터페이스 핸들러 등록](#웹뷰-자바스크립트-인터페이스-핸들러-등록)
-  * [자바스크립트 API](#자바스크립트-API)
+  * [웹뷰 WebSDK 이용하기](#웹뷰-WebSDK-이용하기)
 * [이벤트 연동하기](#이벤트-연동하기)
 * [사용자 속성 연동하기](#사용자-속성-연동하기)
   * [사용자 아이디 설정](#사용자-아이디-설정)
@@ -222,10 +222,12 @@ mWebView.addJavascriptInterface(new SphereJsInterface(), "SphereJsInterface");
 webView.addJavascriptInterface(SphereJsInterface(), "SphereJsInterface")
 ```
 
-### 자바스크립트 API
+### 웹뷰 WebSDK 이용하기
 
-기본 연동 및 웹뷰 연동이 정상적으로 완료되었다면 웹뷰를 이용한 웹 환경에서 자바스크립트 API를 통해 이벤트 수집이 가능합니다.  
-자바스크립트 API를 사용하기 위해서는 [Sphere Web SDK 연동 가이드](https://github.com/tand-git/web-sdk)를 참고하시기 바랍니다.
+기본 연동 및 웹뷰 연동이 정상적으로 완료되었다면 웹뷰를 이용한 웹 환경에서 Web SDK를 통해 이벤트 수집이 가능합니다.  
+Web SDK를 이용하기 위해서는 [Sphere Web SDK 연동 가이드](https://github.com/tand-git/web-sdk)를 참고하시기 바랍니다.
+
+> 아래의 '이벤트 연동하기'부터는 네이티브 영역을 대상으로 진행되는 내용입니다.
 
 ## 이벤트 연동하기
 
