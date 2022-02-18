@@ -1,15 +1,15 @@
 # Android Sphere In-App Message 연동
 
-* [SDK 기본 연동](#SDK-기본-연동)
-  * [메시지 이미지 링크 연동](#메시지-이미지-링크-연동)
-* [추가 설정](#추가-설정)
-  * [Message Display Listener 설정](#Message-Display-Listener-설정)
+- [SDK 기본 연동](#SDK-기본-연동)
+  - [메시지 이미지 링크 연동](#메시지-이미지-링크-연동)
+- [추가 설정](#추가-설정)
+  - [Message Display Listener 설정](#Message-Display-Listener-설정)
 
 ## SDK 기본 연동
 
 > 인앱 메시지 기능을 사용하기 위해서는 SDK 연동가이드의 기본 연동이 필수적으로 완료되어야 메시지 수신이 가능합니다.
 
-* [Sphere SDK Android 연동가이드](https://github.com/tand-git/android-sdk) : [기본 연동](https://github.com/tand-git/android-sdk#기본-연동)
+- [Sphere SDK Android 연동가이드](https://github.com/tand-git/android-sdk) : [기본 연동](https://github.com/tand-git/android-sdk#기본-연동)
 
 ### 메시지 이미지 링크 연동
 
@@ -30,11 +30,7 @@ SphereInAppMessage.setOpenLinkListener(new SphereMessageOpenLinkListener() {
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        if (intent.resolveActivityInfo(activity.getPackageManager(), 0) != null) {
-            activity.startActivity(intent);
-            return true;
-        }
-        return false;
+        return true;
     }
 });
 ```
@@ -47,11 +43,7 @@ SphereInAppMessage.setOpenLinkListener(SphereMessageOpenLinkListener { activity,
     val intent = Intent(Intent.ACTION_VIEW, uri)
     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
 
-    if (intent.resolveActivityInfo(activity.packageManager, 0) != null) {
-        activity.startActivity(intent)
-        return@SphereMessageOpenLinkListener true
-    }
-    false
+    true
 })
 ```
 
