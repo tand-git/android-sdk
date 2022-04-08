@@ -44,6 +44,7 @@ SphereInAppMessage.setOpenLinkListener(SphereMessageOpenLinkListener { activity,
     val uri = Uri.parse(linkUrl)
     val intent = Intent(Intent.ACTION_VIEW, uri)
     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+    
     activity.startActivity(intent)
 
     true
