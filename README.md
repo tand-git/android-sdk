@@ -235,7 +235,7 @@ Web SDK를 이용하기 위해서는 [Sphere Web SDK 연동 가이드](https://g
 
 > 이벤트는 가장 기본이 되는 수집 정보이며 이벤트는 이벤트명과 파라미터들로 구성이 됩니다.
 
-> 이벤트 연동 검증 방법 : [링크](https://worried-raccoon-858.notion.site/9c378285aef24cf4b3d482193c04a4b9)
+> 이벤트 연동 검증 방법 : [링크](https://lightning-individual-9c1.notion.site/ed4a7dd092d6446e8be56e73648637a2)
 
 SDK가 초기화 되었다면 `logEvent` 함수를 이용하여 이벤트를 연동할 수 있으며, 한 이벤트는 최대 25개의 파라미터를 설정할 수 있습니다.
 파라미터는 파라미터명과 파라미터값의 쌍으로 구성되며 `ParamBuilder` 클래스를 통해 설정이 가능합니다.
