@@ -253,7 +253,8 @@ SDK가 초기화 되었다면 `logEvent` 함수를 이용하여 이벤트를 연
     * 첫 글자는 영문 대소문자만 허용
 
 3. 파라미터값
-    * 지원 타입 : String(최대 100자), long, double
+    * 지원 타입 : String(최대 100자), long, double, 
+    * SDK v1.2.10 이상 : Array배열(String) 추가지원
 
 `<Java>`
 
@@ -263,6 +264,13 @@ ParamBuilder paramBuilder = new ParamBuilder()
         .setParam("param_name_1", "param_value")
         .setParam("param_name_2", 1)
         .setParam("param_name_3", 9.9);
+//      .setParamArray("param_name_4",paramArr);  //SDK v1.2.10 이상   
+
+// 파라미터 array<String>: SDK v1.2.10 이상
+JSONArray paramArr = new JSONArray();
+paramArr.put("value1");
+paramBuilder.setParamArray("param_name_4",paramArr);
+
 SphereAnalytics.logEvent("event_name_1", paramBuilder);
 
 // 파라미터가 없는 이벤트 기록
@@ -276,6 +284,13 @@ val paramBuilder = ParamBuilder()
         .setParam("param_name_1", "param_value")
         .setParam("param_name_2", 1)
         .setParam("param_name_3", 9.9)
+//      .setParamArray("param_name_4", paramArr)  //SDK v1.2.10 이상   
+
+// 파라미터 array: SDK v1.2.10 이상
+var paramArr = JSONArray()
+paramArr.put("value1")
+paramBuilder.setParamArray("param_name_4", paramArr)
+
 SphereAnalytics.logEvent("event_name_1", paramBuilder)
 
 // 파라미터가 없는 이벤트 기록
