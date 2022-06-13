@@ -366,7 +366,6 @@ if (isLogIn) { // 로그인: ON 상태 및 사용자 정보 변경 시 설정
     SphereAnalytics.setGrade("vip");
     // 성별 설정
     SphereAnalytics.setGender("m"); // 남성: "m", 여성: "f"
-
     // 출생년도 설정
     SphereAnalytics.setBirthYear(1995); // 출생년도
 
@@ -453,7 +452,7 @@ SphereAnalytics.setUserPropertyLong("user_property_name_2", 12345);
 SphereAnalytics.removeUserProperty("user_property_name_1");
 SphereAnalytics.removeUserProperty("user_property_name_2");
 
-// 배열속성 : SDK v1.2.10 이상
+// 배열 속성 설정 : SDK v1.2.10 이상
 JSONArray arrProp = new JSONArray();
 arrProp.put("prop1");
 SphereAnalytics.setUserPropertyArray("user_property_arr",arrProp);
@@ -463,7 +462,7 @@ SphereAnalytics.setUserPropertyArray("user_property_arr",arrProp);
 // arrProp.add("prop1")
 // => SphereAnalytics.setUserPropertyArray("user_property_arr",new JSONArray(arrProp));
 
-// 배열속성 : SDK v1.2.10 이상
+// 배열 속성 : SDK v1.2.10 이상
 SphereAnalytics.setUserPropertyArray("user_property_arr",null);
 
 ```
