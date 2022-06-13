@@ -351,8 +351,6 @@ if (isLogIn) { // 로그인: ON 상태
 1. 문자형(등급, 성별) 초기화 : `null`로 설정
 2. 숫자형(보유 포인트) 초기화 : `removePoints` 함수 호출
 3. 숫자형(출생년도) 초기화 : `0`으로 설정
-* SDK v1.2.10 이상 :
-4. 사용자 배열속성 :  JSONArray(String) 추가지원
 
 `<Java>`
 
@@ -372,16 +370,6 @@ if (isLogIn) { // 로그인: ON 상태 및 사용자 정보 변경 시 설정
     // 출생년도 설정
     SphereAnalytics.setBirthYear(1995); // 출생년도
 
-    // 배열속성 : SDK v1.2.10 이상
-    JSONArray arrProp = new JSONArray();
-    arrProp.put("prop1");
-    SphereAnalytics.setUserPropertyArray("속성명",arrProp);
-    // String[] arrProp = {"prop1","prop2"};
-    // => SphereAnalytics.setUserPropertyArray("속성명",new JSONArray(Arrays.asList(arrProp)));
-    // ArrayList arrProp = new ArrayList<String>();
-    // arrProp.add("prop1")
-    // => SphereAnalytics.setUserPropertyArray("속성명",new JSONArray(arrProp));
-
 } else { // 로그아웃: OFF 상태
 
     // 사용자 아이디 초기화 - 로그아웃: OFF 상태
@@ -396,8 +384,6 @@ if (isLogIn) { // 로그인: ON 상태 및 사용자 정보 변경 시 설정
     // 출생년도 초기화
     SphereAnalytics.setBirthYear(0);
     
-    // 배열속성 : SDK v1.2.10 이상
-    SphereAnalytics.setUserPropertyArray("속성명",null);
 }
 ```
 
@@ -418,14 +404,7 @@ if (isLogIn) { // // 로그인: ON 상태 및 사용자 정보 변경 시 설정
     // 출생년도 설정
     SphereAnalytics.setBirthYear(1995) // 출생년도
 
-    // 배열속성 : SDK v1.2.10 이상
-    JSONArray arrProp = new JSONArray();
-    arrProp.put("prop1");
-    SphereAnalytics.setUserPropertyArray("속성명",arrProp);
-    // var arrProp = arrayOf("prop1","prop"); 
-    // SphereAnalytics.setUserPropertyArray("속성명",JSONArray(arrProp.toCollection(ArrayList<String>())));
-    // var arrProp = arrayListOf("prop1","prop"); 
-    // SphereAnalytics.setUserPropertyArray("속성명", JSONArray(arrProp));
+
 } else { // 로그아웃: OFF 상태
 
     // 사용자 아이디 초기화
@@ -440,8 +419,7 @@ if (isLogIn) { // // 로그인: ON 상태 및 사용자 정보 변경 시 설정
     // 출생년도 초기화
     SphereAnalytics.setBirthYear(0)
 
-    // 배열속성 : SDK v1.2.10 이상
-    SphereAnalytics.setUserPropertyArray("속성명",null);
+
 }
 ```
 
@@ -463,6 +441,7 @@ if (isLogIn) { // // 로그인: ON 상태 및 사용자 정보 변경 시 설정
 2. 사용자 속성값
     * 문자형 : 최대 100자
     * 정수형 : long 타입
+    * 배열형 : JSONArray(String) //SDK v1.2.10 이상
 
 `<Java>`
 
@@ -473,6 +452,20 @@ SphereAnalytics.setUserPropertyLong("user_property_name_2", 12345);
 // 커스텀 사용자 속성 초기화
 SphereAnalytics.removeUserProperty("user_property_name_1");
 SphereAnalytics.removeUserProperty("user_property_name_2");
+
+// 배열속성 : SDK v1.2.10 이상
+JSONArray arrProp = new JSONArray();
+arrProp.put("prop1");
+SphereAnalytics.setUserPropertyArray("user_property_arr",arrProp);
+// String[] arrProp = {"prop1","prop2"};
+// => SphereAnalytics.setUserPropertyArray("user_property_arr",new JSONArray(Arrays.asList(arrProp)));
+// ArrayList arrProp = new ArrayList<String>();
+// arrProp.add("prop1")
+// => SphereAnalytics.setUserPropertyArray("user_property_arr",new JSONArray(arrProp));
+
+// 배열속성 : SDK v1.2.10 이상
+SphereAnalytics.setUserPropertyArray("user_property_arr",null);
+
 ```
 
 `<Kotlin>`
@@ -484,6 +477,19 @@ SphereAnalytics.setUserPropertyLong("user_property_name_2", 12345)
 // 커스텀 사용자 속성 초기화
 SphereAnalytics.removeUserProperty("user_property_name_1")
 SphereAnalytics.removeUserProperty("user_property_name_2")
+
+// 배열 속성 설정: SDK v1.2.10 이상
+JSONArray arrProp = new JSONArray();
+arrProp.put("prop1");
+SphereAnalytics.setUserPropertyArray("user_property_arr",arrProp);
+// var arrProp = arrayOf("prop1","prop"); 
+// SphereAnalytics.setUserPropertyArray("user_property_arr",JSONArray(arrProp.toCollection(ArrayList<String>()))); // 사용가능
+// var arrProp = arrayListOf("prop1","prop"); 
+// SphereAnalytics.setUserPropertyArray("user_property_arr", JSONArray(arrProp)); // 사용가능
+
+// 배열속성 초기화    
+SphereAnalytics.setUserPropertyArray("user_property_arr",null);
+
 ```
 
 
