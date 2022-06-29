@@ -23,32 +23,52 @@
 `<Java>`
 
 ```java
-SphereInAppMessage.setOpenLinkListener(new SphereMessageOpenLinkListener() {
+public class MyApplication extends Application {
+
     @Override
-    public boolean openLink(Activity activity, String linkUrl) {
-        Uri uri = Uri.parse(linkUrl);
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    public void onCreate() {
+        super.onCreate();
 
-        activity.startActivity(intent);
+        SphereAnalytics.configure(this, "Your Sphere SDK App Key");
 
-        return true;
+        SphereInAppMessage.setOpenLinkListener(new SphereMessageOpenLinkListener() {
+            @Override
+            public boolean openLink(Activity activity, String linkUrl) {
+                Uri uri = Uri.parse(linkUrl);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                activity.startActivity(intent);
+
+                return true;
+            }
+        });
     }
-});
+}
+
 ```
 
 `<Kotlin>`
 
 ```kt
-SphereInAppMessage.setOpenLinkListener(SphereMessageOpenLinkListener { activity, linkUrl ->
-    val uri = Uri.parse(linkUrl)
-    val intent = Intent(Intent.ACTION_VIEW, uri)
-    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-    
-    activity.startActivity(intent)
+class SampleApp : Application() {
 
-    true
-})
+    override fun onCreate() {
+        
+        SphereAnalytics.configure(this, "Your Sphere SDK App Key")
+
+        SphereInAppMessage.setOpenLinkListener(SphereMessageOpenLinkListener { activity, linkUrl ->
+        val uri = Uri.parse(linkUrl)
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+    
+        activity.startActivity(intent)
+
+        true
+        })
+    }
+}
+
 ```
 
 ## 추가 설정
