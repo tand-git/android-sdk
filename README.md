@@ -582,14 +582,14 @@ Sphere ID를 확인하기 위해서는 `getSphereId` 함수를 호출하여 SDK�
 
 ```java
 String sphereId = SphereAnalytics.getSphereId(context);
-Log.v("Sphere", "Sphere ID: " + sphereId);
+Log.v( "Sphere", "Sphere ID: " + sphereId );
 ```
 
 `<Kotlin>`
 
 ```kt
 val sphereId = SphereAnalytics.getSphereId(context)
-Log.v("Sphere", "Sphere ID: $sphereId")
+Log.v( "Sphere", "Sphere ID: $sphereId" )
 ```
 
 ### PushMessage 연동
