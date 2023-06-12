@@ -9,24 +9,26 @@
   * [프로가드 설정](#프로가드-설정)
   * [AndroidManifest 설정](#androidmanifest-설정)
   * [SDK 초기화하기](#sdk-초기화하기)
-  * [프로세스 강제 종료 시 추가 설정](#프로세스-강제-종료-시-추가-설정)
+  * [프로세스 강제 종료 시 추가 설정](#프로세스-강제-종료-시-추가-설정)
 * [웹뷰 연동](#웹뷰-연동)
   * [웹뷰 기능 활성화](#웹뷰-기능-활성화)
   * [웹뷰 자바스크립트 인터페이스 핸들러 등록](#웹뷰-자바스크립트-인터페이스-핸들러-등록)
   * [웹뷰 WebSDK 이용하기](#웹뷰-websdk-이용하기)
 * [이벤트 연동하기](#이벤트-연동하기)
+  * [이벤트 API 연동](#이벤트-api-연동)
 * [사용자 속성 연동하기](#사용자-속성-연동하기)
   * [사용자 아이디 설정](#사용자-아이디-설정)
   * [사용자 속성 설정](#사용자-속성-설정)
-  * [커스텀 사용자 속성 설정](#커스텀-사용자-속성-설정)  
-  * [커스텀 사용자 포인트 설정](#커스텀-사용자-포인트-설정)
+  * [사용자 포인트 설정](#사용자-포인트-설정)
+  * [커스텀 사용자 속성 설정](#커스텀-사용자-속성-설정)
+  * [사용자 속성 API 연동](#사용자-속성-api-연동)
 * [추가 설정](#추가-설정)
   * [로그 출력](#로그-출력)
   * [이벤트 즉시 전송](#이벤트-즉시-전송)
   * [이벤트 수집 비활성화](#이벤트-수집-비활성화)
   * [Sphere ID 확인](#sphere-id-확인)
-* [PushMessage 연동](#pushmessage-연동)
-* [인앱메세지 설정](#인앱메세지-설정)
+  * [PushMessage 연동](#pushmessage-연동)
+  * [인앱메세지 설정](#인앱메세지-설정)
 
 ## 기본 연동
 
@@ -169,11 +171,11 @@ class SampleApp : Application() {
 
 ### 프로세스 강제 종료 시 추가 설정
 
-앱 종료 시 강제적으로 프로세스를 종료 시키는 앱의 경우만 해당된 설정입니다. 앱이 강제 종료가 되면 앱의 사용 시간을 정확히 알 수가 없기 때문에 추가적인 연동이 필요합니다.
+앱 종료 시 강제적으로 프로세스를 종료시키는 앱의 경우만 해당된 설정입니다. 앱이 강제 종료가 되면 앱의 사용 시간을 정확히 알 수가 없기 때문에 추가적인 연동이 필요합니다.
 
-만약 `android.os.Process.killProcess` 또는 `System.exit`와 같은 코드를 이용하여 앱을 강제 종료한다면 정상적인 세션 기록을 위해 해당 코드 이전에 `updateSessionBeforeProcessKill` 함수를 호출해야 합니다.
+만약 `android.os.Process.killProcess`,`System.exit`와 같은 코드를 이용하여 앱을 강제 종료한다면 정상적인 세션 기록을 위해 해당 코드 이전에 `updateSessionBeforeProcessKill` 함수를 호출해야 합니다.
 
-```java
+``` java
 // 강제 종료 이전에 세션 업데이트 함수 호출
 SphereAnalytics.updateSessionBeforeProcessKill();
 
@@ -191,7 +193,7 @@ android.os.Process.killProcess(android.os.Process.myPid());
 ### 웹뷰 기능 활성화
 `<Java>`
 
-```java
+``` java
     // mWebView는 해당 소스의 webView로 대체하여 사용
     mWebView.getSettings().setDomStorageEnabled(true); //storage 활성화
     mWebView.getSettings().setJavaScriptEnabled(true); //javascript 활성화
@@ -213,7 +215,7 @@ android.os.Process.killProcess(android.os.Process.myPid());
 
 `<Java>`
 
-```java
+``` java
 // Add Sphere JavaScript Interface for Sphere Analytics
 mWebView.addJavascriptInterface(new SphereJsInterface(), "SphereJsInterface");
 ```
@@ -259,7 +261,7 @@ SDK가 초기화 되었다면 `logEvent` 함수를 이용하여 이벤트를 연
 
 `<Java>`
 
-```java
+``` java
 // 파라미터를 포함한 이벤트 기록
 ParamBuilder paramBuilder = new ParamBuilder()
         .setParam("param_name_1", "param_value")
@@ -298,6 +300,14 @@ SphereAnalytics.logEvent("event_name_1", paramBuilder)
 SphereAnalytics.logEvent("event_name_2", null)
 ```
 
+### 이벤트 API 연동
+> 서버에서만 인지하는 Interaction 예를 들어, 무통장 입금 완료/ 상품 배송 시작/ 장바구니 강제 초기화 등은 API 연동으로 지원한다.
+>
+> >해당 문의는 담당자/dev@tand.kr로 연락 주시면 API 규격서 안내 드립니다.
+
+> API로 수집된 이벤트는 서버에서 발생시킨 데이터이기 때문에 사용자의 기기 Id를 수집할 수 없고 콘솔에서 기기 Id로  조회할 수 없다.
+
+
 ## 사용자 속성 연동하기
 
 > 사용자 속성을 사용할 경우 수집된 이벤트들을 세분화하여 더욱 자세한 분석 정보를 얻을 수 있으며 개인 정보들은 암호화되어 서버에 저장됩니다. 사용자 속성들은 한번 설정되면 이후 재설정 또는 초기화될 때까지 설정된 값으로 유지됩니다.
@@ -316,7 +326,7 @@ SphereAnalytics.logEvent("event_name_2", null)
 
 `<Java>`
 
-```java
+``` java
 if (isLogIn) { // 로그인: ON 상태
 
     // 사용자 아이디 설정 - 로그인: ON 상태
@@ -355,34 +365,40 @@ if (isLogIn) { // 로그인: ON 상태
 
 `<Java>`
 
-```java
+``` java
 if (isLogIn) { // 로그인: ON 상태 및 사용자 속성 변경 시 설정
 
     // 사용자 아이디 설정 - 로그인: ON 상태
-    SphereAnalytics.setUserId("[USER ID]");
+    SphereAnalytics.setUserId("USERID");
 
-    // 보유 포인트 설정
-    SphereAnalytics.setRemainingPoint(1000);
+    // 사용자 이름 설정
+    SphereAnalytics.setName("이름");
+    // 등급 설정
+    SphereAnalytics.setGrade("vip");
     // 등급 설정
     SphereAnalytics.setGrade("vip");
     // 성별 설정
     SphereAnalytics.setGender("m"); // 남성: "m", 여성: "f"
     // 출생년도 설정
     SphereAnalytics.setBirthYear(1995); // 출생년도
-
+    // 보유 포인트 설정
+    SphereAnalytics.setRemainingPoint(1000);
+        
 } else { // 로그아웃: OFF 상태
 
     // 사용자 아이디 초기화 - 로그아웃: OFF 상태
     SphereAnalytics.setUserId(null);
 
-    // 보유 포인트 초기화
-    SphereAnalytics.removePoints();
+    // 사용자 이름 초기화
+    SphereAnalytics.setName(null);
     // 등급 초기화
     SphereAnalytics.setGrade(null);
     // 성별 초기화
     SphereAnalytics.setGender(null);
     // 출생년도 초기화
     SphereAnalytics.setBirthYear(0);
+    // 보유 포인트 초기화
+    SphereAnalytics.removePoints();
     
 }
 ```
@@ -393,107 +409,39 @@ if (isLogIn) { // 로그인: ON 상태 및 사용자 속성 변경 시 설정
 if (isLogIn) { // // 로그인: ON 상태 및 사용자 속성 변경 시 설정
 
     // 사용자 아이디 설정
-    SphereAnalytics.setUserId("[USER ID]")
+    SphereAnalytics.setUserId("USERID")
 
-    // 보유 포인트 설정
-    SphereAnalytics.setRemainingPoint(1000)
+    // 사용자 이름 설정
+    SphereAnalytics.setName("이름")
     // 등급 설정
     SphereAnalytics.setGrade("vip")
     // 성별 설정
     SphereAnalytics.setGender("m") // 남성: "m", 여성: "f"
     // 출생년도 설정
     SphereAnalytics.setBirthYear(1995) // 출생년도
-
+    // 보유 포인트 설정
+    SphereAnalytics.setRemainingPoint(1000)
 
 } else { // 로그아웃: OFF 상태
 
     // 사용자 아이디 초기화
     SphereAnalytics.setUserId(null)
 
-    // 보유 포인트 초기화
-    SphereAnalytics.resetPoints()
+    // 사용자 이름 설정
+    SphereAnalytics.setName(null)
     // 등급 초기화
     SphereAnalytics.setGrade(null)
     // 성별 초기화
     SphereAnalytics.setGender(null)
     // 출생년도 초기화
     SphereAnalytics.setBirthYear(0)
-
+    // 보유 포인트 초기화
+    SphereAnalytics.resetPoints()
 
 }
 ```
 
-### 커스텀 사용자 속성 설정
-
-미리 정의되지 않은 사용자 속성 정보를 사용 시 `setUserProperty`(문자형) 또는 `setUserPropertyLong`(정수형) 함수를 이용하여 커스텀 사용자 속성을 설정할 수 있습니다.  
-사용자 속성은 속성명과 속성값의 쌍으로 구성되며 사용자 속성 정보 초기화 시 `removeUserProperty` 함수를 이용하여 초기화가 가능합니다.
-또한 문자형 사용자 속성의 경우 속성값을 `null`로 설정 시 해당 속성은 초기화 됩니다.
-
-(단, 개인정보는 전달하면 안됩니다. ex: 생년월일, 전화번호, e-mail 등)
-사용자 속성에 관한 규칙은 다음과 같습니다.
-
-1. 사용자 속성명
-    * 최대 40자
-    * 영문 대소문자, 숫자, 특수문자 중 ‘_’ 만 허용
-    * 첫 글자는 영문 대소문자만 허용
-    * "sap"으로 시작되는 속성명은 사전 정의된 속성명으로 사용 불가
-
-2. 사용자 속성값
-    * 문자형 : 최대 100자
-    * 정수형 : long 타입
-    * 배열형 : JSONArray(String) //SDK v1.2.10 이상
-
-`<Java>`
-
-```java
-// 커스텀 사용자 속성 설정
-SphereAnalytics.setUserProperty("user_property_name_1", "user_property_value");
-SphereAnalytics.setUserPropertyLong("user_property_name_2", 12345);
-// 커스텀 사용자 속성 초기화
-SphereAnalytics.removeUserProperty("user_property_name_1");
-SphereAnalytics.removeUserProperty("user_property_name_2");
-
-// 배열 속성 설정 : SDK v1.2.10 이상
-JSONArray arrProp = new JSONArray();
-arrProp.put("prop1");
-SphereAnalytics.setUserPropertyArray("user_property_arr",arrProp);
-// String[] arrProp = {"prop1","prop2"};
-// => SphereAnalytics.setUserPropertyArray("user_property_arr",new JSONArray(Arrays.asList(arrProp)));
-// ArrayList arrProp = new ArrayList<String>();
-// arrProp.add("prop1")
-// => SphereAnalytics.setUserPropertyArray("user_property_arr",new JSONArray(arrProp));
-
-// 배열 속성 : SDK v1.2.10 이상
-SphereAnalytics.setUserPropertyArray("user_property_arr",null);
-
-```
-
-`<Kotlin>`
-
-```kt
-// 커스텀 사용자 속성 설정
-SphereAnalytics.setUserProperty("user_property_name_1", "user_property_value")
-SphereAnalytics.setUserPropertyLong("user_property_name_2", 12345)
-// 커스텀 사용자 속성 초기화
-SphereAnalytics.removeUserProperty("user_property_name_1")
-SphereAnalytics.removeUserProperty("user_property_name_2")
-
-// 배열 속성 설정: SDK v1.2.10 이상
-JSONArray arrProp = new JSONArray();
-arrProp.put("prop1");
-SphereAnalytics.setUserPropertyArray("user_property_arr",arrProp);
-// var arrProp = arrayOf("prop1","prop"); 
-// SphereAnalytics.setUserPropertyArray("user_property_arr",JSONArray(arrProp.toCollection(ArrayList<String>()))); // 사용가능
-// var arrProp = arrayListOf("prop1","prop"); 
-// SphereAnalytics.setUserPropertyArray("user_property_arr", JSONArray(arrProp)); // 사용가능
-
-// 배열속성 초기화    
-SphereAnalytics.setUserPropertyArray("user_property_arr",null);
-
-```
-
-
-### 커스텀 사용자 포인트 설정
+### 사용자 포인트 설정
 
 미리 정의되지 않은 사용자 속성 정보를 사용 시 `setRemainingPoint`(보유 포인트) 함수를 이용하여 커스텀 사용자 포인트를 설정할 수 있습니다.  
 사용자 속성은 속성명과 속성값의 쌍으로 구성되며 사용자 속성 정보 초기화 시 `removePoints` 함수를 이용하여 초기화가 가능합니다.
@@ -518,6 +466,78 @@ SphereAnalytics.removePoints("user_point_name");
 SphereAnalytics.resetPoints();
 ```
 
+### 커스텀 사용자 속성 설정
+
+미리 정의되지 않은 사용자 속성 정보를 사용 시 `setUserProperty`(문자형) 또는 `setUserPropertyLong`(정수형) 함수를 이용하여 커스텀 사용자 속성을 설정할 수 있습니다.  
+사용자 속성은 속성명과 속성값의 쌍으로 구성되며 사용자 속성 정보 초기화 시 `removeUserProperty` 함수를 이용하여 초기화가 가능합니다.
+또한 문자형 사용자 속성의 경우 속성값을 `null`로 설정 시 해당 속성은 초기화 됩니다.
+
+(단, 개인정보는 전달하면 안됩니다. ex: 생년월일, 전화번호, e-mail 등)
+사용자 속성에 관한 규칙은 다음과 같습니다.
+
+1. 사용자 속성명
+    * 최대 40자
+    * 영문 대소문자, 숫자, 특수문자 중 ‘_’ 만 허용
+    * 첫 글자는 영문 대소문자만 허용
+    * "sap"으로 시작되는 속성명은 사전 정의된 속성명으로 사용 불가
+
+2. 사용자 속성값
+    * 문자형 : 최대 100자
+    * 정수형 : long 타입
+    * 배열형 : JSONArray(String) //SDK v1.2.10 이상
+
+`<Java>`
+
+``` java
+// 커스텀 사용자 속성 설정
+SphereAnalytics.setUserProperty("user_property_name_1", "user_property_value");
+SphereAnalytics.setUserPropertyLong("user_property_name_2", 12345);
+// 커스텀 사용자 속성 초기화
+SphereAnalytics.removeUserProperty("user_property_name_1");
+SphereAnalytics.removeUserProperty("user_property_name_2");
+
+// 배열 속성 설정 : SDK v1.2.10 이상
+JSONArray arrProp = new JSONArray();
+arrProp.put("prop1");
+SphereAnalytics.setUserPropertyArray("user_property_arr",arrProp);
+// String[] arrProp = {"prop1","prop2"};
+// => SphereAnalytics.setUserPropertyArray("user_property_arr",new JSONArray(Arrays.asList(arrProp)));
+// ArrayList arrProp = new ArrayList<String>();
+// arrProp.add("prop1")
+// => SphereAnalytics.setUserPropertyArray("user_property_arr",new JSONArray(arrProp));
+
+// 배열 속성 : SDK v1.2.10 이상
+SphereAnalytics.setUserPropertyArray("user_property_arr",null);
+
+```
+
+`<Kotlin>`
+
+``` kt
+// 커스텀 사용자 속성 설정
+SphereAnalytics.setUserProperty("user_property_name_1", "user_property_value")
+SphereAnalytics.setUserPropertyLong("user_property_name_2", 12345)
+// 커스텀 사용자 속성 초기화
+SphereAnalytics.removeUserProperty("user_property_name_1")
+SphereAnalytics.removeUserProperty("user_property_name_2")
+
+// 배열 속성 설정: SDK v1.2.10 이상
+JSONArray arrProp = new JSONArray();
+arrProp.put("prop1");
+SphereAnalytics.setUserPropertyArray("user_property_arr",arrProp);
+// var arrProp = arrayOf("prop1","prop"); 
+// SphereAnalytics.setUserPropertyArray("user_property_arr",JSONArray(arrProp.toCollection(ArrayList<String>()))); // 사용가능
+// var arrProp = arrayListOf("prop1","prop"); 
+// SphereAnalytics.setUserPropertyArray("user_property_arr", JSONArray(arrProp)); // 사용가능
+
+// 배열속성 초기화    
+SphereAnalytics.setUserPropertyArray("user_property_arr",null);
+
+```
+
+### 사용자 속성 API 연동
+> 사용자 속성은 정확도를 높이기 위해서 API 연동을 지원하며, 해당 문의는 담당자/dev@tand.kr로 연락 주시면 API 규격서 안내 드립니다.
+
 
 ## 추가 설정
 
@@ -530,7 +550,7 @@ SphereAnalytics.resetPoints();
 
 `<Java>`
 
-```java
+``` java
 SphereAnalytics.enableLog(true); // 활성화
 ```
 
@@ -547,14 +567,14 @@ SphereAnalytics.enableLog(true) // 활성화
 
 `<Java>`
 
-```java
+``` java
 SphereAnalytics.requestUpload();
 ```
 
 `<Kotlin>`
 
 ```kt
-SphereAnalytics.requestUpload()
+    SphereAnalytics.requestUpload()
 ```
 
 ### 이벤트 수집 비활성화
@@ -581,7 +601,7 @@ Sphere ID를 확인하기 위해서는 `getSphereId` 함수를 호출하여 SDK�
 
 `<Java>`
 
-```java
+``` java
 String sphereId = SphereAnalytics.getSphereId(context);
 Log.v( "Sphere", "Sphere ID: " + sphereId );
 ```
