@@ -279,7 +279,7 @@ if (isLogIn) { // 로그인: ON 상태
 ## 메세지 커스텀 오픈 연동
 
 > 푸시 메시지 전송 시 데이터(키/값)를 함께 전달하는 기능으로 Sphere 콘솔에서 푸시메시지 입력 시 키/값을 설정해야 합니다.
-* 키-값(key-value) 이용가이드: [링크](https://www.notion.so/Key-value-c65b4843b7cd4b6e80e91ad994af52b2)
+* 키-값(key-value) 이용가이드: [링크](https://lightning-individual-9c1.notion.site/Key-value-c28edf104b434417879e84864a0788d3)
 
 
 데이터(키/값)와 함께 푸시메시지를 전송하면 메시지 클릭 시 실행되는 `Activity`로 데이터가 전달됩니다.  
